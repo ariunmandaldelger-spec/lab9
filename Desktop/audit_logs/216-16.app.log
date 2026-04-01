@@ -1,0 +1,1907 @@
+C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqld.exe, Version: 8.0.45 (MySQL Community Server - GPL). started with:
+TCP Port: 3306, Named Pipe: MySQL
+Time                 Id Command    Argument
+2026-04-01T00:46:10.684852Z	   10 Query	DROP DATABASE IF EXISTS `sql_invoicing`
+2026-04-01T00:46:10.729853Z	   10 Query	CREATE DATABASE `sql_invoicing`
+2026-04-01T00:46:10.732730Z	   10 Query	USE `sql_invoicing`
+2026-04-01T00:46:10.732986Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:46:10.733794Z	   10 Query	SET NAMES utf8
+2026-04-01T00:46:10.733935Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:10.734905Z	   10 Query	SET character_set_client = utf8mb4
+2026-04-01T00:46:10.735539Z	   10 Query	CREATE TABLE `payment_methods` (
+  `payment_method_id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`payment_method_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:10.752383Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:10.753350Z	   10 Query	INSERT INTO `payment_methods` VALUES (1,'Credit Card')
+2026-04-01T00:46:10.755663Z	   10 Query	INSERT INTO `payment_methods` VALUES (2,'Cash')
+2026-04-01T00:46:10.757694Z	   10 Query	INSERT INTO `payment_methods` VALUES (3,'PayPal')
+2026-04-01T00:46:10.762671Z	   10 Query	INSERT INTO `payment_methods` VALUES (4,'Wire Transfer')
+2026-04-01T00:46:10.765763Z	   10 Query	CREATE TABLE `clients` (
+  `client_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` char(2) NOT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:10.781720Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:10.782607Z	   10 Query	INSERT INTO `clients` VALUES (1,'Vinte','3 Nevada Parkway','Syracuse','NY','315-252-7305')
+2026-04-01T00:46:10.784642Z	   10 Query	INSERT INTO `clients` VALUES (2,'Myworks','34267 Glendale Parkway','Huntington','WV','304-659-1170')
+2026-04-01T00:46:10.786697Z	   10 Query	INSERT INTO `clients` VALUES (3,'Yadel','096 Pawling Parkway','San Francisco','CA','415-144-6037')
+2026-04-01T00:46:10.793080Z	   10 Query	INSERT INTO `clients` VALUES (4,'Kwideo','81674 Westerfield Circle','Waco','TX','254-750-0784')
+2026-04-01T00:46:10.795273Z	   10 Query	INSERT INTO `clients` VALUES (5,'Topiclounge','0863 Farmco Road','Portland','OR','971-888-9129')
+2026-04-01T00:46:10.797442Z	   10 Query	CREATE TABLE `invoices` (
+  `invoice_id` int(11) NOT NULL,
+  `number` varchar(50) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `invoice_total` decimal(9,2) NOT NULL,
+  `payment_total` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `invoice_date` date NOT NULL,
+  `due_date` date NOT NULL,
+  `payment_date` date DEFAULT NULL,
+  PRIMARY KEY (`invoice_id`),
+  KEY `FK_client_id` (`client_id`),
+  CONSTRAINT `FK_client_id` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:10.818457Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:10.819146Z	   10 Query	INSERT INTO `invoices` VALUES (1,'91-953-3396',2,101.79,0.00,'2019-03-09','2019-03-29',NULL)
+2026-04-01T00:46:10.821519Z	   10 Query	INSERT INTO `invoices` VALUES (2,'03-898-6735',5,175.32,8.18,'2019-06-11','2019-07-01','2019-02-12')
+2026-04-01T00:46:10.823551Z	   10 Query	INSERT INTO `invoices` VALUES (3,'20-228-0335',5,147.99,0.00,'2019-07-31','2019-08-20',NULL)
+2026-04-01T00:46:10.826254Z	   10 Query	INSERT INTO `invoices` VALUES (4,'56-934-0748',3,152.21,0.00,'2019-03-08','2019-03-28',NULL)
+2026-04-01T00:46:10.829199Z	   10 Query	INSERT INTO `invoices` VALUES (5,'87-052-3121',5,169.36,0.00,'2019-07-18','2019-08-07',NULL)
+2026-04-01T00:46:10.833666Z	   10 Query	INSERT INTO `invoices` VALUES (6,'75-587-6626',1,157.78,74.55,'2019-01-29','2019-02-18','2019-01-03')
+2026-04-01T00:46:10.836807Z	   10 Query	INSERT INTO `invoices` VALUES (7,'68-093-9863',3,133.87,0.00,'2019-09-04','2019-09-24',NULL)
+2026-04-01T00:46:10.839086Z	   10 Query	INSERT INTO `invoices` VALUES (8,'78-145-1093',1,189.12,0.00,'2019-05-20','2019-06-09',NULL)
+2026-04-01T00:46:10.841400Z	   10 Query	INSERT INTO `invoices` VALUES (9,'77-593-0081',5,172.17,0.00,'2019-07-09','2019-07-29',NULL)
+2026-04-01T00:46:10.842923Z	   10 Query	INSERT INTO `invoices` VALUES (10,'48-266-1517',1,159.50,0.00,'2019-06-30','2019-07-20',NULL)
+2026-04-01T00:46:10.845250Z	   10 Query	INSERT INTO `invoices` VALUES (11,'20-848-0181',3,126.15,0.03,'2019-01-07','2019-01-27','2019-01-11')
+2026-04-01T00:46:10.848202Z	   10 Query	INSERT INTO `invoices` VALUES (13,'41-666-1035',5,135.01,87.44,'2019-06-25','2019-07-15','2019-01-26')
+2026-04-01T00:46:10.850163Z	   10 Query	INSERT INTO `invoices` VALUES (15,'55-105-9605',3,167.29,80.31,'2019-11-25','2019-12-15','2019-01-15')
+2026-04-01T00:46:10.852125Z	   10 Query	INSERT INTO `invoices` VALUES (16,'10-451-8824',1,162.02,0.00,'2019-03-30','2019-04-19',NULL)
+2026-04-01T00:46:10.854523Z	   10 Query	INSERT INTO `invoices` VALUES (17,'33-615-4694',3,126.38,68.10,'2019-07-30','2019-08-19','2019-01-15')
+2026-04-01T00:46:10.856682Z	   10 Query	INSERT INTO `invoices` VALUES (18,'52-269-9803',5,180.17,42.77,'2019-05-23','2019-06-12','2019-01-08')
+2026-04-01T00:46:10.858488Z	   10 Query	INSERT INTO `invoices` VALUES (19,'83-559-4105',1,134.47,0.00,'2019-11-23','2019-12-13',NULL)
+2026-04-01T00:46:10.860191Z	   10 Query	CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `amount` decimal(9,2) NOT NULL,
+  `payment_method` tinyint(4) NOT NULL,
+  PRIMARY KEY (`payment_id`),
+  KEY `fk_client_id_idx` (`client_id`),
+  KEY `fk_invoice_id_idx` (`invoice_id`),
+  KEY `fk_payment_payment_method_idx` (`payment_method`),
+  CONSTRAINT `fk_payment_client` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_payment_invoice` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`invoice_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_payment_payment_method` FOREIGN KEY (`payment_method`) REFERENCES `payment_methods` (`payment_method_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:10.893609Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:10.894398Z	   10 Query	INSERT INTO `payments` VALUES (1,5,2,'2019-02-12',8.18,1)
+2026-04-01T00:46:10.896909Z	   10 Query	INSERT INTO `payments` VALUES (2,1,6,'2019-01-03',74.55,1)
+2026-04-01T00:46:10.905709Z	   10 Query	INSERT INTO `payments` VALUES (3,3,11,'2019-01-11',0.03,1)
+2026-04-01T00:46:10.909290Z	   10 Query	INSERT INTO `payments` VALUES (4,5,13,'2019-01-26',87.44,1)
+2026-04-01T00:46:10.912217Z	   10 Query	INSERT INTO `payments` VALUES (5,3,15,'2019-01-15',80.31,1)
+2026-04-01T00:46:10.914599Z	   10 Query	INSERT INTO `payments` VALUES (6,3,17,'2019-01-15',68.10,1)
+2026-04-01T00:46:10.920306Z	   10 Query	INSERT INTO `payments` VALUES (7,5,18,'2019-01-08',32.77,1)
+2026-04-01T00:46:10.922790Z	   10 Query	INSERT INTO `payments` VALUES (8,5,18,'2019-01-08',10.00,2)
+2026-04-01T00:46:10.924696Z	   10 Query	DROP DATABASE IF EXISTS `sql_store`
+2026-04-01T00:46:10.955423Z	   10 Query	CREATE DATABASE `sql_store`
+2026-04-01T00:46:10.960783Z	   10 Query	USE `sql_store`
+2026-04-01T00:46:10.960925Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:46:10.961334Z	   10 Query	CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:10.976605Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:10.977193Z	   10 Query	INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21)
+2026-04-01T00:46:10.984191Z	   10 Query	INSERT INTO `products` VALUES (2,'Pork - Bacon,back Peameal',49,4.65)
+2026-04-01T00:46:10.987147Z	   10 Query	INSERT INTO `products` VALUES (3,'Lettuce - Romaine, Heart',38,3.35)
+2026-04-01T00:46:10.993395Z	   10 Query	INSERT INTO `products` VALUES (4,'Brocolinni - Gaylan, Chinese',90,4.53)
+2026-04-01T00:46:10.994613Z	   10 Query	INSERT INTO `products` VALUES (5,'Sauce - Ranch Dressing',94,1.63)
+2026-04-01T00:46:10.997243Z	   10 Query	INSERT INTO `products` VALUES (6,'Petit Baguette',14,2.39)
+2026-04-01T00:46:11.002343Z	   10 Query	INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29)
+2026-04-01T00:46:11.003550Z	   10 Query	INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74)
+2026-04-01T00:46:11.004742Z	   10 Query	INSERT INTO `products` VALUES (9,'Longan',67,2.26)
+2026-04-01T00:46:11.006837Z	   10 Query	INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09)
+2026-04-01T00:46:11.007977Z	   10 Query	CREATE TABLE `shippers` (
+  `shipper_id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`shipper_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:11.016465Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:11.017516Z	   10 Query	INSERT INTO `shippers` VALUES (1,'Hettinger LLC')
+2026-04-01T00:46:11.022551Z	   10 Query	INSERT INTO `shippers` VALUES (2,'Schinner-Predovic')
+2026-04-01T00:46:11.024802Z	   10 Query	INSERT INTO `shippers` VALUES (3,'Satterfield LLC')
+2026-04-01T00:46:11.027392Z	   10 Query	INSERT INTO `shippers` VALUES (4,'Mraz, Renner and Nolan')
+2026-04-01T00:46:11.028551Z	   10 Query	INSERT INTO `shippers` VALUES (5,'Waters, Mayert and Prohaska')
+2026-04-01T00:46:11.030157Z	   10 Query	CREATE TABLE `customers` (
+  `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `birth_date` date DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` char(2) NOT NULL,
+  `points` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`customer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:11.040501Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:11.041113Z	   10 Query	INSERT INTO `customers` VALUES (1,'Babara','MacCaffrey','1986-03-28','781-932-9754','0 Sage Terrace','Waltham','MA',2273)
+2026-04-01T00:46:11.043178Z	   10 Query	INSERT INTO `customers` VALUES (2,'Ines','Brushfield','1986-04-13','804-427-9456','14187 Commercial Trail','Hampton','VA',947)
+2026-04-01T00:46:11.049925Z	   10 Query	INSERT INTO `customers` VALUES (3,'Freddi','Boagey','1985-02-07','719-724-7869','251 Springs Junction','Colorado Springs','CO',2967)
+2026-04-01T00:46:11.051642Z	   10 Query	INSERT INTO `customers` VALUES (4,'Ambur','Roseburgh','1974-04-14','407-231-8017','30 Arapahoe Terrace','Orlando','FL',457)
+2026-04-01T00:46:11.052700Z	   10 Query	INSERT INTO `customers` VALUES (5,'Clemmie','Betchley','1973-11-07',NULL,'5 Spohn Circle','Arlington','TX',3675)
+2026-04-01T00:46:11.053870Z	   10 Query	INSERT INTO `customers` VALUES (6,'Elka','Twiddell','1991-09-04','312-480-8498','7 Manley Drive','Chicago','IL',3073)
+2026-04-01T00:46:11.058651Z	   10 Query	INSERT INTO `customers` VALUES (7,'Ilene','Dowson','1964-08-30','615-641-4759','50 Lillian Crossing','Nashville','TN',1672)
+2026-04-01T00:46:11.063206Z	   10 Query	INSERT INTO `customers` VALUES (8,'Thacher','Naseby','1993-07-17','941-527-3977','538 Mosinee Center','Sarasota','FL',205)
+2026-04-01T00:46:11.064571Z	   10 Query	INSERT INTO `customers` VALUES (9,'Romola','Rumgay','1992-05-23','559-181-3744','3520 Ohio Trail','Visalia','CA',1486)
+2026-04-01T00:46:11.065951Z	   10 Query	INSERT INTO `customers` VALUES (10,'Levy','Mynett','1969-10-13','404-246-3370','68 Lawn Avenue','Atlanta','GA',796)
+2026-04-01T00:46:11.066947Z	   10 Query	CREATE TABLE `order_statuses` (
+  `order_status_id` tinyint(4) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`order_status_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:11.076220Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:11.076920Z	   10 Query	INSERT INTO `order_statuses` VALUES (1,'Processed')
+2026-04-01T00:46:11.081382Z	   10 Query	INSERT INTO `order_statuses` VALUES (2,'Shipped')
+2026-04-01T00:46:11.085042Z	   10 Query	INSERT INTO `order_statuses` VALUES (3,'Delivered')
+2026-04-01T00:46:11.086436Z	   10 Query	CREATE TABLE `orders` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `order_date` date NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `comments` varchar(2000) DEFAULT NULL,
+  `shipped_date` date DEFAULT NULL,
+  `shipper_id` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`order_id`),
+  KEY `fk_orders_customers_idx` (`customer_id`),
+  KEY `fk_orders_shippers_idx` (`shipper_id`),
+  KEY `fk_orders_order_statuses_idx` (`status`),
+  CONSTRAINT `fk_orders_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_order_statuses` FOREIGN KEY (`status`) REFERENCES `order_statuses` (`order_status_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_shippers` FOREIGN KEY (`shipper_id`) REFERENCES `shippers` (`shipper_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:11.103125Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:11.103843Z	   10 Query	INSERT INTO `orders` VALUES (1,6,'2019-01-30',1,NULL,NULL,NULL)
+2026-04-01T00:46:11.106301Z	   10 Query	INSERT INTO `orders` VALUES (2,7,'2018-08-02',2,NULL,'2018-08-03',4)
+2026-04-01T00:46:11.111959Z	   10 Query	INSERT INTO `orders` VALUES (3,8,'2017-12-01',1,NULL,NULL,NULL)
+2026-04-01T00:46:11.114774Z	   10 Query	INSERT INTO `orders` VALUES (4,2,'2017-01-22',1,NULL,NULL,NULL)
+2026-04-01T00:46:11.120696Z	   10 Query	INSERT INTO `orders` VALUES (5,5,'2017-08-25',2,'','2017-08-26',3)
+2026-04-01T00:46:11.121871Z	   10 Query	INSERT INTO `orders` VALUES (6,10,'2018-11-18',1,'Aliquam erat volutpat. In congue.',NULL,NULL)
+2026-04-01T00:46:11.122933Z	   10 Query	INSERT INTO `orders` VALUES (7,2,'2018-09-22',2,NULL,'2018-09-23',4)
+2026-04-01T00:46:11.124035Z	   10 Query	INSERT INTO `orders` VALUES (8,5,'2018-06-08',1,'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.',NULL,NULL)
+2026-04-01T00:46:11.125132Z	   10 Query	INSERT INTO `orders` VALUES (9,10,'2017-07-05',2,'Nulla mollis molestie lorem. Quisque ut erat.','2017-07-06',1)
+2026-04-01T00:46:11.131059Z	   10 Query	INSERT INTO `orders` VALUES (10,6,'2018-04-22',2,NULL,'2018-04-23',2)
+2026-04-01T00:46:11.132497Z	   10 Query	CREATE TABLE `order_items` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`order_id`,`product_id`),
+  KEY `fk_order_items_products_idx` (`product_id`),
+  CONSTRAINT `fk_order_items_orders` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_order_items_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:11.149041Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:11.149698Z	   10 Query	INSERT INTO `order_items` VALUES (1,4,4,3.74)
+2026-04-01T00:46:11.151242Z	   10 Query	INSERT INTO `order_items` VALUES (2,1,2,9.10)
+2026-04-01T00:46:11.158868Z	   10 Query	INSERT INTO `order_items` VALUES (2,4,4,1.66)
+2026-04-01T00:46:11.160901Z	   10 Query	INSERT INTO `order_items` VALUES (2,6,2,2.94)
+2026-04-01T00:46:11.162229Z	   10 Query	INSERT INTO `order_items` VALUES (3,3,10,9.12)
+2026-04-01T00:46:11.165418Z	   10 Query	INSERT INTO `order_items` VALUES (4,3,7,6.99)
+2026-04-01T00:46:11.167670Z	   10 Query	INSERT INTO `order_items` VALUES (4,10,7,6.40)
+2026-04-01T00:46:11.168748Z	   10 Query	INSERT INTO `order_items` VALUES (5,2,3,9.89)
+2026-04-01T00:46:11.174927Z	   10 Query	INSERT INTO `order_items` VALUES (6,1,4,8.65)
+2026-04-01T00:46:11.176097Z	   10 Query	INSERT INTO `order_items` VALUES (6,2,4,3.28)
+2026-04-01T00:46:11.183374Z	   10 Query	INSERT INTO `order_items` VALUES (6,3,4,7.46)
+2026-04-01T00:46:11.184532Z	   10 Query	INSERT INTO `order_items` VALUES (6,5,1,3.45)
+2026-04-01T00:46:11.185736Z	   10 Query	INSERT INTO `order_items` VALUES (7,3,7,9.17)
+2026-04-01T00:46:11.186822Z	   10 Query	INSERT INTO `order_items` VALUES (8,5,2,6.94)
+2026-04-01T00:46:11.192128Z	   10 Query	INSERT INTO `order_items` VALUES (8,8,2,8.59)
+2026-04-01T00:46:11.193448Z	   10 Query	INSERT INTO `order_items` VALUES (9,6,5,7.28)
+2026-04-01T00:46:11.194544Z	   10 Query	INSERT INTO `order_items` VALUES (10,1,10,6.01)
+2026-04-01T00:46:11.195573Z	   10 Query	INSERT INTO `order_items` VALUES (10,9,9,4.28)
+2026-04-01T00:46:11.197228Z	   10 Query	CREATE TABLE `sql_store`.`order_item_notes` (
+  `note_id` INT NOT NULL,
+  `order_Id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `note` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`note_id`))
+2026-04-01T00:46:11.207657Z	   10 Query	INSERT INTO `order_item_notes` (`note_id`, `order_Id`, `product_id`, `note`) VALUES ('1', '1', '2', 'first note')
+2026-04-01T00:46:11.209098Z	   10 Query	INSERT INTO `order_item_notes` (`note_id`, `order_Id`, `product_id`, `note`) VALUES ('2', '1', '2', 'second note')
+2026-04-01T00:46:11.210029Z	   10 Query	DROP DATABASE IF EXISTS `sql_hr`
+2026-04-01T00:46:11.217855Z	   10 Query	CREATE DATABASE `sql_hr`
+2026-04-01T00:46:11.222618Z	   10 Query	USE `sql_hr`
+2026-04-01T00:46:11.222819Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:46:11.223311Z	   10 Query	CREATE TABLE `offices` (
+  `office_id` int(11) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` varchar(50) NOT NULL,
+  PRIMARY KEY (`office_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:11.231998Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:11.232631Z	   10 Query	INSERT INTO `offices` VALUES (1,'03 Reinke Trail','Cincinnati','OH')
+2026-04-01T00:46:11.238341Z	   10 Query	INSERT INTO `offices` VALUES (2,'5507 Becker Terrace','New York City','NY')
+2026-04-01T00:46:11.244296Z	   10 Query	INSERT INTO `offices` VALUES (3,'54 Northland Court','Richmond','VA')
+2026-04-01T00:46:11.245558Z	   10 Query	INSERT INTO `offices` VALUES (4,'08 South Crossing','Cincinnati','OH')
+2026-04-01T00:46:11.246612Z	   10 Query	INSERT INTO `offices` VALUES (5,'553 Maple Drive','Minneapolis','MN')
+2026-04-01T00:46:11.247538Z	   10 Query	INSERT INTO `offices` VALUES (6,'23 North Plaza','Aurora','CO')
+2026-04-01T00:46:11.248627Z	   10 Query	INSERT INTO `offices` VALUES (7,'9658 Wayridge Court','Boise','ID')
+2026-04-01T00:46:11.256219Z	   10 Query	INSERT INTO `offices` VALUES (8,'9 Grayhawk Trail','New York City','NY')
+2026-04-01T00:46:11.257289Z	   10 Query	INSERT INTO `offices` VALUES (9,'16862 Westend Hill','Knoxville','TN')
+2026-04-01T00:46:11.258277Z	   10 Query	INSERT INTO `offices` VALUES (10,'4 Bluestem Parkway','Savannah','GA')
+2026-04-01T00:46:11.259356Z	   10 Query	CREATE TABLE `employees` (
+  `employee_id` int(11) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `job_title` varchar(50) NOT NULL,
+  `salary` int(11) NOT NULL,
+  `reports_to` int(11) DEFAULT NULL,
+  `office_id` int(11) NOT NULL,
+  PRIMARY KEY (`employee_id`),
+  KEY `fk_employees_offices_idx` (`office_id`),
+  KEY `fk_employees_employees_idx` (`reports_to`),
+  CONSTRAINT `fk_employees_managers` FOREIGN KEY (`reports_to`) REFERENCES `employees` (`employee_id`),
+  CONSTRAINT `fk_employees_offices` FOREIGN KEY (`office_id`) REFERENCES `offices` (`office_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:11.275236Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:11.275884Z	   10 Query	INSERT INTO `employees` VALUES (37270,'Yovonnda','Magrannell','Executive Secretary',63996,NULL,10)
+2026-04-01T00:46:11.277402Z	   10 Query	INSERT INTO `employees` VALUES (33391,'D\'arcy','Nortunen','Account Executive',62871,37270,1)
+2026-04-01T00:46:11.281118Z	   10 Query	INSERT INTO `employees` VALUES (37851,'Sayer','Matterson','Statistician III',98926,37270,1)
+2026-04-01T00:46:11.283641Z	   10 Query	INSERT INTO `employees` VALUES (40448,'Mindy','Crissil','Staff Scientist',94860,37270,1)
+2026-04-01T00:46:11.284804Z	   10 Query	INSERT INTO `employees` VALUES (56274,'Keriann','Alloisi','VP Marketing',110150,37270,1)
+2026-04-01T00:46:11.286022Z	   10 Query	INSERT INTO `employees` VALUES (63196,'Alaster','Scutchin','Assistant Professor',32179,37270,2)
+2026-04-01T00:46:11.287028Z	   10 Query	INSERT INTO `employees` VALUES (67009,'North','de Clerc','VP Product Management',114257,37270,2)
+2026-04-01T00:46:11.288228Z	   10 Query	INSERT INTO `employees` VALUES (67370,'Elladine','Rising','Social Worker',96767,37270,2)
+2026-04-01T00:46:11.289296Z	   10 Query	INSERT INTO `employees` VALUES (68249,'Nisse','Voysey','Financial Advisor',52832,37270,2)
+2026-04-01T00:46:11.290311Z	   10 Query	INSERT INTO `employees` VALUES (72540,'Guthrey','Iacopetti','Office Assistant I',117690,37270,3)
+2026-04-01T00:46:11.291324Z	   10 Query	INSERT INTO `employees` VALUES (72913,'Kass','Hefferan','Computer Systems Analyst IV',96401,37270,3)
+2026-04-01T00:46:11.292419Z	   10 Query	INSERT INTO `employees` VALUES (75900,'Virge','Goodrum','Information Systems Manager',54578,37270,3)
+2026-04-01T00:46:11.293659Z	   10 Query	INSERT INTO `employees` VALUES (76196,'Mirilla','Janowski','Cost Accountant',119241,37270,3)
+2026-04-01T00:46:11.300739Z	   10 Query	INSERT INTO `employees` VALUES (80529,'Lynde','Aronson','Junior Executive',77182,37270,4)
+2026-04-01T00:46:11.301963Z	   10 Query	INSERT INTO `employees` VALUES (80679,'Mildrid','Sokale','Geologist II',67987,37270,4)
+2026-04-01T00:46:11.305579Z	   10 Query	INSERT INTO `employees` VALUES (84791,'Hazel','Tarbert','General Manager',93760,37270,4)
+2026-04-01T00:46:11.307103Z	   10 Query	INSERT INTO `employees` VALUES (95213,'Cole','Kesterton','Pharmacist',86119,37270,4)
+2026-04-01T00:46:11.313312Z	   10 Query	INSERT INTO `employees` VALUES (96513,'Theresa','Binney','Food Chemist',47354,37270,5)
+2026-04-01T00:46:11.314352Z	   10 Query	INSERT INTO `employees` VALUES (98374,'Estrellita','Daleman','Staff Accountant IV',70187,37270,5)
+2026-04-01T00:46:11.317820Z	   10 Query	INSERT INTO `employees` VALUES (115357,'Ivy','Fearey','Structural Engineer',92710,37270,5)
+2026-04-01T00:46:11.324690Z	   10 Query	DROP DATABASE IF EXISTS `sql_inventory`
+2026-04-01T00:46:11.330215Z	   10 Query	CREATE DATABASE `sql_inventory`
+2026-04-01T00:46:11.331857Z	   10 Query	USE `sql_inventory`
+2026-04-01T00:46:11.331998Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:46:11.332456Z	   10 Query	CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:46:11.340952Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:46:11.341671Z	   10 Query	INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21)
+2026-04-01T00:46:11.343220Z	   10 Query	INSERT INTO `products` VALUES (2,'Pork - Bacon,back Peameal',49,4.65)
+2026-04-01T00:46:11.344831Z	   10 Query	INSERT INTO `products` VALUES (3,'Lettuce - Romaine, Heart',38,3.35)
+2026-04-01T00:46:11.346021Z	   10 Query	INSERT INTO `products` VALUES (4,'Brocolinni - Gaylan, Chinese',90,4.53)
+2026-04-01T00:46:11.348450Z	   10 Query	INSERT INTO `products` VALUES (5,'Sauce - Ranch Dressing',94,1.63)
+2026-04-01T00:46:11.349542Z	   10 Query	INSERT INTO `products` VALUES (6,'Petit Baguette',14,2.39)
+2026-04-01T00:46:11.350577Z	   10 Query	INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29)
+2026-04-01T00:46:11.355867Z	   10 Query	INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74)
+2026-04-01T00:46:11.360274Z	   10 Query	INSERT INTO `products` VALUES (9,'Longan',67,2.26)
+2026-04-01T00:46:11.363093Z	   10 Query	INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09)
+2026-04-01T00:46:11.367222Z	   10 Query	set global general_log = 'on'
+2026-04-01T00:46:11.367644Z	   10 Query	show variables like 'general_log_file'
+2026-04-01T00:47:02.974895Z	   10 Query	DROP DATABASE IF EXISTS `sql_invoicing`
+2026-04-01T00:47:03.009949Z	   10 Query	CREATE DATABASE `sql_invoicing`
+2026-04-01T00:47:03.014578Z	   10 Query	USE `sql_invoicing`
+2026-04-01T00:47:03.014779Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:47:03.015420Z	   10 Query	SET NAMES utf8
+2026-04-01T00:47:03.015509Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.016297Z	   10 Query	SET character_set_client = utf8mb4
+2026-04-01T00:47:03.016765Z	   10 Query	CREATE TABLE `payment_methods` (
+  `payment_method_id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`payment_method_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.032042Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.032875Z	   10 Query	INSERT INTO `payment_methods` VALUES (1,'Credit Card')
+2026-04-01T00:47:03.034928Z	   10 Query	INSERT INTO `payment_methods` VALUES (2,'Cash')
+2026-04-01T00:47:03.036674Z	   10 Query	INSERT INTO `payment_methods` VALUES (3,'PayPal')
+2026-04-01T00:47:03.042095Z	   10 Query	INSERT INTO `payment_methods` VALUES (4,'Wire Transfer')
+2026-04-01T00:47:03.044576Z	   10 Query	CREATE TABLE `clients` (
+  `client_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` char(2) NOT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.056104Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.056896Z	   10 Query	INSERT INTO `clients` VALUES (1,'Vinte','3 Nevada Parkway','Syracuse','NY','315-252-7305')
+2026-04-01T00:47:03.059564Z	   10 Query	INSERT INTO `clients` VALUES (2,'Myworks','34267 Glendale Parkway','Huntington','WV','304-659-1170')
+2026-04-01T00:47:03.060790Z	   10 Query	INSERT INTO `clients` VALUES (3,'Yadel','096 Pawling Parkway','San Francisco','CA','415-144-6037')
+2026-04-01T00:47:03.065257Z	   10 Query	INSERT INTO `clients` VALUES (4,'Kwideo','81674 Westerfield Circle','Waco','TX','254-750-0784')
+2026-04-01T00:47:03.066834Z	   10 Query	INSERT INTO `clients` VALUES (5,'Topiclounge','0863 Farmco Road','Portland','OR','971-888-9129')
+2026-04-01T00:47:03.068380Z	   10 Query	CREATE TABLE `invoices` (
+  `invoice_id` int(11) NOT NULL,
+  `number` varchar(50) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `invoice_total` decimal(9,2) NOT NULL,
+  `payment_total` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `invoice_date` date NOT NULL,
+  `due_date` date NOT NULL,
+  `payment_date` date DEFAULT NULL,
+  PRIMARY KEY (`invoice_id`),
+  KEY `FK_client_id` (`client_id`),
+  CONSTRAINT `FK_client_id` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.086414Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.087191Z	   10 Query	INSERT INTO `invoices` VALUES (1,'91-953-3396',2,101.79,0.00,'2019-03-09','2019-03-29',NULL)
+2026-04-01T00:47:03.089009Z	   10 Query	INSERT INTO `invoices` VALUES (2,'03-898-6735',5,175.32,8.18,'2019-06-11','2019-07-01','2019-02-12')
+2026-04-01T00:47:03.090744Z	   10 Query	INSERT INTO `invoices` VALUES (3,'20-228-0335',5,147.99,0.00,'2019-07-31','2019-08-20',NULL)
+2026-04-01T00:47:03.092078Z	   10 Query	INSERT INTO `invoices` VALUES (4,'56-934-0748',3,152.21,0.00,'2019-03-08','2019-03-28',NULL)
+2026-04-01T00:47:03.094354Z	   10 Query	INSERT INTO `invoices` VALUES (5,'87-052-3121',5,169.36,0.00,'2019-07-18','2019-08-07',NULL)
+2026-04-01T00:47:03.095739Z	   10 Query	INSERT INTO `invoices` VALUES (6,'75-587-6626',1,157.78,74.55,'2019-01-29','2019-02-18','2019-01-03')
+2026-04-01T00:47:03.097351Z	   10 Query	INSERT INTO `invoices` VALUES (7,'68-093-9863',3,133.87,0.00,'2019-09-04','2019-09-24',NULL)
+2026-04-01T00:47:03.099026Z	   10 Query	INSERT INTO `invoices` VALUES (8,'78-145-1093',1,189.12,0.00,'2019-05-20','2019-06-09',NULL)
+2026-04-01T00:47:03.100108Z	   10 Query	INSERT INTO `invoices` VALUES (9,'77-593-0081',5,172.17,0.00,'2019-07-09','2019-07-29',NULL)
+2026-04-01T00:47:03.101473Z	   10 Query	INSERT INTO `invoices` VALUES (10,'48-266-1517',1,159.50,0.00,'2019-06-30','2019-07-20',NULL)
+2026-04-01T00:47:03.102771Z	   10 Query	INSERT INTO `invoices` VALUES (11,'20-848-0181',3,126.15,0.03,'2019-01-07','2019-01-27','2019-01-11')
+2026-04-01T00:47:03.103983Z	   10 Query	INSERT INTO `invoices` VALUES (13,'41-666-1035',5,135.01,87.44,'2019-06-25','2019-07-15','2019-01-26')
+2026-04-01T00:47:03.105146Z	   10 Query	INSERT INTO `invoices` VALUES (15,'55-105-9605',3,167.29,80.31,'2019-11-25','2019-12-15','2019-01-15')
+2026-04-01T00:47:03.107195Z	   10 Query	INSERT INTO `invoices` VALUES (16,'10-451-8824',1,162.02,0.00,'2019-03-30','2019-04-19',NULL)
+2026-04-01T00:47:03.108832Z	   10 Query	INSERT INTO `invoices` VALUES (17,'33-615-4694',3,126.38,68.10,'2019-07-30','2019-08-19','2019-01-15')
+2026-04-01T00:47:03.110222Z	   10 Query	INSERT INTO `invoices` VALUES (18,'52-269-9803',5,180.17,42.77,'2019-05-23','2019-06-12','2019-01-08')
+2026-04-01T00:47:03.112011Z	   10 Query	INSERT INTO `invoices` VALUES (19,'83-559-4105',1,134.47,0.00,'2019-11-23','2019-12-13',NULL)
+2026-04-01T00:47:03.113610Z	   10 Query	CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `amount` decimal(9,2) NOT NULL,
+  `payment_method` tinyint(4) NOT NULL,
+  PRIMARY KEY (`payment_id`),
+  KEY `fk_client_id_idx` (`client_id`),
+  KEY `fk_invoice_id_idx` (`invoice_id`),
+  KEY `fk_payment_payment_method_idx` (`payment_method`),
+  CONSTRAINT `fk_payment_client` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_payment_invoice` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`invoice_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_payment_payment_method` FOREIGN KEY (`payment_method`) REFERENCES `payment_methods` (`payment_method_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.132270Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.132961Z	   10 Query	INSERT INTO `payments` VALUES (1,5,2,'2019-02-12',8.18,1)
+2026-04-01T00:47:03.136421Z	   10 Query	INSERT INTO `payments` VALUES (2,1,6,'2019-01-03',74.55,1)
+2026-04-01T00:47:03.138195Z	   10 Query	INSERT INTO `payments` VALUES (3,3,11,'2019-01-11',0.03,1)
+2026-04-01T00:47:03.142945Z	   10 Query	INSERT INTO `payments` VALUES (4,5,13,'2019-01-26',87.44,1)
+2026-04-01T00:47:03.144302Z	   10 Query	INSERT INTO `payments` VALUES (5,3,15,'2019-01-15',80.31,1)
+2026-04-01T00:47:03.145713Z	   10 Query	INSERT INTO `payments` VALUES (6,3,17,'2019-01-15',68.10,1)
+2026-04-01T00:47:03.146998Z	   10 Query	INSERT INTO `payments` VALUES (7,5,18,'2019-01-08',32.77,1)
+2026-04-01T00:47:03.148477Z	   10 Query	INSERT INTO `payments` VALUES (8,5,18,'2019-01-08',10.00,2)
+2026-04-01T00:47:03.150830Z	   10 Query	DROP DATABASE IF EXISTS `sql_store`
+2026-04-01T00:47:03.172426Z	   10 Query	CREATE DATABASE `sql_store`
+2026-04-01T00:47:03.174883Z	   10 Query	USE `sql_store`
+2026-04-01T00:47:03.175066Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:47:03.175601Z	   10 Query	CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.183340Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.184137Z	   10 Query	INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21)
+2026-04-01T00:47:03.187473Z	   10 Query	INSERT INTO `products` VALUES (2,'Pork - Bacon,back Peameal',49,4.65)
+2026-04-01T00:47:03.193725Z	   10 Query	INSERT INTO `products` VALUES (3,'Lettuce - Romaine, Heart',38,3.35)
+2026-04-01T00:47:03.195299Z	   10 Query	INSERT INTO `products` VALUES (4,'Brocolinni - Gaylan, Chinese',90,4.53)
+2026-04-01T00:47:03.196585Z	   10 Query	INSERT INTO `products` VALUES (5,'Sauce - Ranch Dressing',94,1.63)
+2026-04-01T00:47:03.197991Z	   10 Query	INSERT INTO `products` VALUES (6,'Petit Baguette',14,2.39)
+2026-04-01T00:47:03.199279Z	   10 Query	INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29)
+2026-04-01T00:47:03.200338Z	   10 Query	INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74)
+2026-04-01T00:47:03.201566Z	   10 Query	INSERT INTO `products` VALUES (9,'Longan',67,2.26)
+2026-04-01T00:47:03.202984Z	   10 Query	INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09)
+2026-04-01T00:47:03.204392Z	   10 Query	CREATE TABLE `shippers` (
+  `shipper_id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`shipper_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.211981Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.212740Z	   10 Query	INSERT INTO `shippers` VALUES (1,'Hettinger LLC')
+2026-04-01T00:47:03.214494Z	   10 Query	INSERT INTO `shippers` VALUES (2,'Schinner-Predovic')
+2026-04-01T00:47:03.222226Z	   10 Query	INSERT INTO `shippers` VALUES (3,'Satterfield LLC')
+2026-04-01T00:47:03.223546Z	   10 Query	INSERT INTO `shippers` VALUES (4,'Mraz, Renner and Nolan')
+2026-04-01T00:47:03.224942Z	   10 Query	INSERT INTO `shippers` VALUES (5,'Waters, Mayert and Prohaska')
+2026-04-01T00:47:03.226270Z	   10 Query	CREATE TABLE `customers` (
+  `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `birth_date` date DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` char(2) NOT NULL,
+  `points` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`customer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.234035Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.234702Z	   10 Query	INSERT INTO `customers` VALUES (1,'Babara','MacCaffrey','1986-03-28','781-932-9754','0 Sage Terrace','Waltham','MA',2273)
+2026-04-01T00:47:03.236345Z	   10 Query	INSERT INTO `customers` VALUES (2,'Ines','Brushfield','1986-04-13','804-427-9456','14187 Commercial Trail','Hampton','VA',947)
+2026-04-01T00:47:03.237699Z	   10 Query	INSERT INTO `customers` VALUES (3,'Freddi','Boagey','1985-02-07','719-724-7869','251 Springs Junction','Colorado Springs','CO',2967)
+2026-04-01T00:47:03.238778Z	   10 Query	INSERT INTO `customers` VALUES (4,'Ambur','Roseburgh','1974-04-14','407-231-8017','30 Arapahoe Terrace','Orlando','FL',457)
+2026-04-01T00:47:03.240289Z	   10 Query	INSERT INTO `customers` VALUES (5,'Clemmie','Betchley','1973-11-07',NULL,'5 Spohn Circle','Arlington','TX',3675)
+2026-04-01T00:47:03.241703Z	   10 Query	INSERT INTO `customers` VALUES (6,'Elka','Twiddell','1991-09-04','312-480-8498','7 Manley Drive','Chicago','IL',3073)
+2026-04-01T00:47:03.242994Z	   10 Query	INSERT INTO `customers` VALUES (7,'Ilene','Dowson','1964-08-30','615-641-4759','50 Lillian Crossing','Nashville','TN',1672)
+2026-04-01T00:47:03.244243Z	   10 Query	INSERT INTO `customers` VALUES (8,'Thacher','Naseby','1993-07-17','941-527-3977','538 Mosinee Center','Sarasota','FL',205)
+2026-04-01T00:47:03.245605Z	   10 Query	INSERT INTO `customers` VALUES (9,'Romola','Rumgay','1992-05-23','559-181-3744','3520 Ohio Trail','Visalia','CA',1486)
+2026-04-01T00:47:03.246949Z	   10 Query	INSERT INTO `customers` VALUES (10,'Levy','Mynett','1969-10-13','404-246-3370','68 Lawn Avenue','Atlanta','GA',796)
+2026-04-01T00:47:03.248306Z	   10 Query	CREATE TABLE `order_statuses` (
+  `order_status_id` tinyint(4) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`order_status_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.255541Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.256219Z	   10 Query	INSERT INTO `order_statuses` VALUES (1,'Processed')
+2026-04-01T00:47:03.259225Z	   10 Query	INSERT INTO `order_statuses` VALUES (2,'Shipped')
+2026-04-01T00:47:03.260634Z	   10 Query	INSERT INTO `order_statuses` VALUES (3,'Delivered')
+2026-04-01T00:47:03.262251Z	   10 Query	CREATE TABLE `orders` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `order_date` date NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `comments` varchar(2000) DEFAULT NULL,
+  `shipped_date` date DEFAULT NULL,
+  `shipper_id` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`order_id`),
+  KEY `fk_orders_customers_idx` (`customer_id`),
+  KEY `fk_orders_shippers_idx` (`shipper_id`),
+  KEY `fk_orders_order_statuses_idx` (`status`),
+  CONSTRAINT `fk_orders_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_order_statuses` FOREIGN KEY (`status`) REFERENCES `order_statuses` (`order_status_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_shippers` FOREIGN KEY (`shipper_id`) REFERENCES `shippers` (`shipper_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.281195Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.281895Z	   10 Query	INSERT INTO `orders` VALUES (1,6,'2019-01-30',1,NULL,NULL,NULL)
+2026-04-01T00:47:03.283702Z	   10 Query	INSERT INTO `orders` VALUES (2,7,'2018-08-02',2,NULL,'2018-08-03',4)
+2026-04-01T00:47:03.285444Z	   10 Query	INSERT INTO `orders` VALUES (3,8,'2017-12-01',1,NULL,NULL,NULL)
+2026-04-01T00:47:03.291029Z	   10 Query	INSERT INTO `orders` VALUES (4,2,'2017-01-22',1,NULL,NULL,NULL)
+2026-04-01T00:47:03.292493Z	   10 Query	INSERT INTO `orders` VALUES (5,5,'2017-08-25',2,'','2017-08-26',3)
+2026-04-01T00:47:03.293840Z	   10 Query	INSERT INTO `orders` VALUES (6,10,'2018-11-18',1,'Aliquam erat volutpat. In congue.',NULL,NULL)
+2026-04-01T00:47:03.295112Z	   10 Query	INSERT INTO `orders` VALUES (7,2,'2018-09-22',2,NULL,'2018-09-23',4)
+2026-04-01T00:47:03.296522Z	   10 Query	INSERT INTO `orders` VALUES (8,5,'2018-06-08',1,'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.',NULL,NULL)
+2026-04-01T00:47:03.297801Z	   10 Query	INSERT INTO `orders` VALUES (9,10,'2017-07-05',2,'Nulla mollis molestie lorem. Quisque ut erat.','2017-07-06',1)
+2026-04-01T00:47:03.299028Z	   10 Query	INSERT INTO `orders` VALUES (10,6,'2018-04-22',2,NULL,'2018-04-23',2)
+2026-04-01T00:47:03.300244Z	   10 Query	CREATE TABLE `order_items` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`order_id`,`product_id`),
+  KEY `fk_order_items_products_idx` (`product_id`),
+  CONSTRAINT `fk_order_items_orders` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_order_items_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.315118Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.315834Z	   10 Query	INSERT INTO `order_items` VALUES (1,4,4,3.74)
+2026-04-01T00:47:03.317629Z	   10 Query	INSERT INTO `order_items` VALUES (2,1,2,9.10)
+2026-04-01T00:47:03.319125Z	   10 Query	INSERT INTO `order_items` VALUES (2,4,4,1.66)
+2026-04-01T00:47:03.320581Z	   10 Query	INSERT INTO `order_items` VALUES (2,6,2,2.94)
+2026-04-01T00:47:03.324698Z	   10 Query	INSERT INTO `order_items` VALUES (3,3,10,9.12)
+2026-04-01T00:47:03.326527Z	   10 Query	INSERT INTO `order_items` VALUES (4,3,7,6.99)
+2026-04-01T00:47:03.327793Z	   10 Query	INSERT INTO `order_items` VALUES (4,10,7,6.40)
+2026-04-01T00:47:03.328884Z	   10 Query	INSERT INTO `order_items` VALUES (5,2,3,9.89)
+2026-04-01T00:47:03.330012Z	   10 Query	INSERT INTO `order_items` VALUES (6,1,4,8.65)
+2026-04-01T00:47:03.331271Z	   10 Query	INSERT INTO `order_items` VALUES (6,2,4,3.28)
+2026-04-01T00:47:03.332526Z	   10 Query	INSERT INTO `order_items` VALUES (6,3,4,7.46)
+2026-04-01T00:47:03.333830Z	   10 Query	INSERT INTO `order_items` VALUES (6,5,1,3.45)
+2026-04-01T00:47:03.334987Z	   10 Query	INSERT INTO `order_items` VALUES (7,3,7,9.17)
+2026-04-01T00:47:03.336163Z	   10 Query	INSERT INTO `order_items` VALUES (8,5,2,6.94)
+2026-04-01T00:47:03.337377Z	   10 Query	INSERT INTO `order_items` VALUES (8,8,2,8.59)
+2026-04-01T00:47:03.338549Z	   10 Query	INSERT INTO `order_items` VALUES (9,6,5,7.28)
+2026-04-01T00:47:03.339731Z	   10 Query	INSERT INTO `order_items` VALUES (10,1,10,6.01)
+2026-04-01T00:47:03.341148Z	   10 Query	INSERT INTO `order_items` VALUES (10,9,9,4.28)
+2026-04-01T00:47:03.342421Z	   10 Query	CREATE TABLE `sql_store`.`order_item_notes` (
+  `note_id` INT NOT NULL,
+  `order_Id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `note` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`note_id`))
+2026-04-01T00:47:03.349484Z	   10 Query	INSERT INTO `order_item_notes` (`note_id`, `order_Id`, `product_id`, `note`) VALUES ('1', '1', '2', 'first note')
+2026-04-01T00:47:03.351093Z	   10 Query	INSERT INTO `order_item_notes` (`note_id`, `order_Id`, `product_id`, `note`) VALUES ('2', '1', '2', 'second note')
+2026-04-01T00:47:03.352123Z	   10 Query	DROP DATABASE IF EXISTS `sql_hr`
+2026-04-01T00:47:03.359455Z	   10 Query	CREATE DATABASE `sql_hr`
+2026-04-01T00:47:03.361265Z	   10 Query	USE `sql_hr`
+2026-04-01T00:47:03.361393Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:47:03.361804Z	   10 Query	CREATE TABLE `offices` (
+  `office_id` int(11) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` varchar(50) NOT NULL,
+  PRIMARY KEY (`office_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.369818Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.370446Z	   10 Query	INSERT INTO `offices` VALUES (1,'03 Reinke Trail','Cincinnati','OH')
+2026-04-01T00:47:03.372501Z	   10 Query	INSERT INTO `offices` VALUES (2,'5507 Becker Terrace','New York City','NY')
+2026-04-01T00:47:03.374089Z	   10 Query	INSERT INTO `offices` VALUES (3,'54 Northland Court','Richmond','VA')
+2026-04-01T00:47:03.375544Z	   10 Query	INSERT INTO `offices` VALUES (4,'08 South Crossing','Cincinnati','OH')
+2026-04-01T00:47:03.378406Z	   10 Query	INSERT INTO `offices` VALUES (5,'553 Maple Drive','Minneapolis','MN')
+2026-04-01T00:47:03.379721Z	   10 Query	INSERT INTO `offices` VALUES (6,'23 North Plaza','Aurora','CO')
+2026-04-01T00:47:03.380861Z	   10 Query	INSERT INTO `offices` VALUES (7,'9658 Wayridge Court','Boise','ID')
+2026-04-01T00:47:03.382131Z	   10 Query	INSERT INTO `offices` VALUES (8,'9 Grayhawk Trail','New York City','NY')
+2026-04-01T00:47:03.383390Z	   10 Query	INSERT INTO `offices` VALUES (9,'16862 Westend Hill','Knoxville','TN')
+2026-04-01T00:47:03.384498Z	   10 Query	INSERT INTO `offices` VALUES (10,'4 Bluestem Parkway','Savannah','GA')
+2026-04-01T00:47:03.385840Z	   10 Query	CREATE TABLE `employees` (
+  `employee_id` int(11) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `job_title` varchar(50) NOT NULL,
+  `salary` int(11) NOT NULL,
+  `reports_to` int(11) DEFAULT NULL,
+  `office_id` int(11) NOT NULL,
+  PRIMARY KEY (`employee_id`),
+  KEY `fk_employees_offices_idx` (`office_id`),
+  KEY `fk_employees_employees_idx` (`reports_to`),
+  CONSTRAINT `fk_employees_managers` FOREIGN KEY (`reports_to`) REFERENCES `employees` (`employee_id`),
+  CONSTRAINT `fk_employees_offices` FOREIGN KEY (`office_id`) REFERENCES `offices` (`office_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.400987Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.401624Z	   10 Query	INSERT INTO `employees` VALUES (37270,'Yovonnda','Magrannell','Executive Secretary',63996,NULL,10)
+2026-04-01T00:47:03.403520Z	   10 Query	INSERT INTO `employees` VALUES (33391,'D\'arcy','Nortunen','Account Executive',62871,37270,1)
+2026-04-01T00:47:03.405076Z	   10 Query	INSERT INTO `employees` VALUES (37851,'Sayer','Matterson','Statistician III',98926,37270,1)
+2026-04-01T00:47:03.406407Z	   10 Query	INSERT INTO `employees` VALUES (40448,'Mindy','Crissil','Staff Scientist',94860,37270,1)
+2026-04-01T00:47:03.407698Z	   10 Query	INSERT INTO `employees` VALUES (56274,'Keriann','Alloisi','VP Marketing',110150,37270,1)
+2026-04-01T00:47:03.408961Z	   10 Query	INSERT INTO `employees` VALUES (63196,'Alaster','Scutchin','Assistant Professor',32179,37270,2)
+2026-04-01T00:47:03.410311Z	   10 Query	INSERT INTO `employees` VALUES (67009,'North','de Clerc','VP Product Management',114257,37270,2)
+2026-04-01T00:47:03.415974Z	   10 Query	INSERT INTO `employees` VALUES (67370,'Elladine','Rising','Social Worker',96767,37270,2)
+2026-04-01T00:47:03.417694Z	   10 Query	INSERT INTO `employees` VALUES (68249,'Nisse','Voysey','Financial Advisor',52832,37270,2)
+2026-04-01T00:47:03.421402Z	   10 Query	INSERT INTO `employees` VALUES (72540,'Guthrey','Iacopetti','Office Assistant I',117690,37270,3)
+2026-04-01T00:47:03.425957Z	   10 Query	INSERT INTO `employees` VALUES (72913,'Kass','Hefferan','Computer Systems Analyst IV',96401,37270,3)
+2026-04-01T00:47:03.427459Z	   10 Query	INSERT INTO `employees` VALUES (75900,'Virge','Goodrum','Information Systems Manager',54578,37270,3)
+2026-04-01T00:47:03.428807Z	   10 Query	INSERT INTO `employees` VALUES (76196,'Mirilla','Janowski','Cost Accountant',119241,37270,3)
+2026-04-01T00:47:03.433458Z	   10 Query	INSERT INTO `employees` VALUES (80529,'Lynde','Aronson','Junior Executive',77182,37270,4)
+2026-04-01T00:47:03.434868Z	   10 Query	INSERT INTO `employees` VALUES (80679,'Mildrid','Sokale','Geologist II',67987,37270,4)
+2026-04-01T00:47:03.437226Z	   10 Query	INSERT INTO `employees` VALUES (84791,'Hazel','Tarbert','General Manager',93760,37270,4)
+2026-04-01T00:47:03.438440Z	   10 Query	INSERT INTO `employees` VALUES (95213,'Cole','Kesterton','Pharmacist',86119,37270,4)
+2026-04-01T00:47:03.439826Z	   10 Query	INSERT INTO `employees` VALUES (96513,'Theresa','Binney','Food Chemist',47354,37270,5)
+2026-04-01T00:47:03.440962Z	   10 Query	INSERT INTO `employees` VALUES (98374,'Estrellita','Daleman','Staff Accountant IV',70187,37270,5)
+2026-04-01T00:47:03.442219Z	   10 Query	INSERT INTO `employees` VALUES (115357,'Ivy','Fearey','Structural Engineer',92710,37270,5)
+2026-04-01T00:47:03.443294Z	   10 Query	DROP DATABASE IF EXISTS `sql_inventory`
+2026-04-01T00:47:03.448116Z	   10 Query	CREATE DATABASE `sql_inventory`
+2026-04-01T00:47:03.449855Z	   10 Query	USE `sql_inventory`
+2026-04-01T00:47:03.450006Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:47:03.450552Z	   10 Query	CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:47:03.459986Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:47:03.460632Z	   10 Query	INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21)
+2026-04-01T00:47:03.462227Z	   10 Query	INSERT INTO `products` VALUES (2,'Pork - Bacon,back Peameal',49,4.65)
+2026-04-01T00:47:03.468228Z	   10 Query	INSERT INTO `products` VALUES (3,'Lettuce - Romaine, Heart',38,3.35)
+2026-04-01T00:47:03.475054Z	   10 Query	INSERT INTO `products` VALUES (4,'Brocolinni - Gaylan, Chinese',90,4.53)
+2026-04-01T00:47:03.476149Z	   10 Query	INSERT INTO `products` VALUES (5,'Sauce - Ranch Dressing',94,1.63)
+2026-04-01T00:47:03.477320Z	   10 Query	INSERT INTO `products` VALUES (6,'Petit Baguette',14,2.39)
+2026-04-01T00:47:03.478439Z	   10 Query	INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29)
+2026-04-01T00:47:03.481170Z	   10 Query	INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74)
+2026-04-01T00:47:03.482426Z	   10 Query	INSERT INTO `products` VALUES (9,'Longan',67,2.26)
+2026-04-01T00:47:03.484058Z	   10 Query	INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09)
+2026-04-01T00:47:03.485845Z	   10 Query	set global general_log = 'on'
+2026-04-01T00:47:03.486196Z	   10 Query	show variables like 'general_log_file'
+2026-04-01T00:47:03.492867Z	   10 Query	select*from sql_invoicing.clients
+LIMIT 0, 1000
+2026-04-01T00:47:03.496458Z	    9 Query	SHOW INDEX FROM `sql_invoicing`.`clients`
+2026-04-01T00:49:40.506075Z	   10 Query	DROP DATABASE IF EXISTS `sql_invoicing`
+2026-04-01T00:49:40.524928Z	   10 Query	CREATE DATABASE `sql_invoicing`
+2026-04-01T00:49:40.526634Z	   10 Query	USE `sql_invoicing`
+2026-04-01T00:49:40.526760Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:49:40.527248Z	   10 Query	SET NAMES utf8
+2026-04-01T00:49:40.527317Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.527766Z	   10 Query	SET character_set_client = utf8mb4
+2026-04-01T00:49:40.528160Z	   10 Query	CREATE TABLE `payment_methods` (
+  `payment_method_id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`payment_method_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.536514Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.537265Z	   10 Query	INSERT INTO `payment_methods` VALUES (1,'Credit Card')
+2026-04-01T00:49:40.538758Z	   10 Query	INSERT INTO `payment_methods` VALUES (2,'Cash')
+2026-04-01T00:49:40.540541Z	   10 Query	INSERT INTO `payment_methods` VALUES (3,'PayPal')
+2026-04-01T00:49:40.541919Z	   10 Query	INSERT INTO `payment_methods` VALUES (4,'Wire Transfer')
+2026-04-01T00:49:40.543378Z	   10 Query	CREATE TABLE `clients` (
+  `client_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` char(2) NOT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.550331Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.551026Z	   10 Query	INSERT INTO `clients` VALUES (1,'Vinte','3 Nevada Parkway','Syracuse','NY','315-252-7305')
+2026-04-01T00:49:40.553145Z	   10 Query	INSERT INTO `clients` VALUES (2,'Myworks','34267 Glendale Parkway','Huntington','WV','304-659-1170')
+2026-04-01T00:49:40.554426Z	   10 Query	INSERT INTO `clients` VALUES (3,'Yadel','096 Pawling Parkway','San Francisco','CA','415-144-6037')
+2026-04-01T00:49:40.555686Z	   10 Query	INSERT INTO `clients` VALUES (4,'Kwideo','81674 Westerfield Circle','Waco','TX','254-750-0784')
+2026-04-01T00:49:40.556948Z	   10 Query	INSERT INTO `clients` VALUES (5,'Topiclounge','0863 Farmco Road','Portland','OR','971-888-9129')
+2026-04-01T00:49:40.558161Z	   10 Query	CREATE TABLE `invoices` (
+  `invoice_id` int(11) NOT NULL,
+  `number` varchar(50) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `invoice_total` decimal(9,2) NOT NULL,
+  `payment_total` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `invoice_date` date NOT NULL,
+  `due_date` date NOT NULL,
+  `payment_date` date DEFAULT NULL,
+  PRIMARY KEY (`invoice_id`),
+  KEY `FK_client_id` (`client_id`),
+  CONSTRAINT `FK_client_id` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.572587Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.573425Z	   10 Query	INSERT INTO `invoices` VALUES (1,'91-953-3396',2,101.79,0.00,'2019-03-09','2019-03-29',NULL)
+2026-04-01T00:49:40.575262Z	   10 Query	INSERT INTO `invoices` VALUES (2,'03-898-6735',5,175.32,8.18,'2019-06-11','2019-07-01','2019-02-12')
+2026-04-01T00:49:40.576625Z	   10 Query	INSERT INTO `invoices` VALUES (3,'20-228-0335',5,147.99,0.00,'2019-07-31','2019-08-20',NULL)
+2026-04-01T00:49:40.578204Z	   10 Query	INSERT INTO `invoices` VALUES (4,'56-934-0748',3,152.21,0.00,'2019-03-08','2019-03-28',NULL)
+2026-04-01T00:49:40.579555Z	   10 Query	INSERT INTO `invoices` VALUES (5,'87-052-3121',5,169.36,0.00,'2019-07-18','2019-08-07',NULL)
+2026-04-01T00:49:40.580943Z	   10 Query	INSERT INTO `invoices` VALUES (6,'75-587-6626',1,157.78,74.55,'2019-01-29','2019-02-18','2019-01-03')
+2026-04-01T00:49:40.582156Z	   10 Query	INSERT INTO `invoices` VALUES (7,'68-093-9863',3,133.87,0.00,'2019-09-04','2019-09-24',NULL)
+2026-04-01T00:49:40.583715Z	   10 Query	INSERT INTO `invoices` VALUES (8,'78-145-1093',1,189.12,0.00,'2019-05-20','2019-06-09',NULL)
+2026-04-01T00:49:40.585167Z	   10 Query	INSERT INTO `invoices` VALUES (9,'77-593-0081',5,172.17,0.00,'2019-07-09','2019-07-29',NULL)
+2026-04-01T00:49:40.586568Z	   10 Query	INSERT INTO `invoices` VALUES (10,'48-266-1517',1,159.50,0.00,'2019-06-30','2019-07-20',NULL)
+2026-04-01T00:49:40.587934Z	   10 Query	INSERT INTO `invoices` VALUES (11,'20-848-0181',3,126.15,0.03,'2019-01-07','2019-01-27','2019-01-11')
+2026-04-01T00:49:40.589245Z	   10 Query	INSERT INTO `invoices` VALUES (13,'41-666-1035',5,135.01,87.44,'2019-06-25','2019-07-15','2019-01-26')
+2026-04-01T00:49:40.590647Z	   10 Query	INSERT INTO `invoices` VALUES (15,'55-105-9605',3,167.29,80.31,'2019-11-25','2019-12-15','2019-01-15')
+2026-04-01T00:49:40.592082Z	   10 Query	INSERT INTO `invoices` VALUES (16,'10-451-8824',1,162.02,0.00,'2019-03-30','2019-04-19',NULL)
+2026-04-01T00:49:40.593582Z	   10 Query	INSERT INTO `invoices` VALUES (17,'33-615-4694',3,126.38,68.10,'2019-07-30','2019-08-19','2019-01-15')
+2026-04-01T00:49:40.594911Z	   10 Query	INSERT INTO `invoices` VALUES (18,'52-269-9803',5,180.17,42.77,'2019-05-23','2019-06-12','2019-01-08')
+2026-04-01T00:49:40.596304Z	   10 Query	INSERT INTO `invoices` VALUES (19,'83-559-4105',1,134.47,0.00,'2019-11-23','2019-12-13',NULL)
+2026-04-01T00:49:40.597685Z	   10 Query	CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `amount` decimal(9,2) NOT NULL,
+  `payment_method` tinyint(4) NOT NULL,
+  PRIMARY KEY (`payment_id`),
+  KEY `fk_client_id_idx` (`client_id`),
+  KEY `fk_invoice_id_idx` (`invoice_id`),
+  KEY `fk_payment_payment_method_idx` (`payment_method`),
+  CONSTRAINT `fk_payment_client` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_payment_invoice` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`invoice_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_payment_payment_method` FOREIGN KEY (`payment_method`) REFERENCES `payment_methods` (`payment_method_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.614191Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.614876Z	   10 Query	INSERT INTO `payments` VALUES (1,5,2,'2019-02-12',8.18,1)
+2026-04-01T00:49:40.616797Z	   10 Query	INSERT INTO `payments` VALUES (2,1,6,'2019-01-03',74.55,1)
+2026-04-01T00:49:40.618366Z	   10 Query	INSERT INTO `payments` VALUES (3,3,11,'2019-01-11',0.03,1)
+2026-04-01T00:49:40.619750Z	   10 Query	INSERT INTO `payments` VALUES (4,5,13,'2019-01-26',87.44,1)
+2026-04-01T00:49:40.621162Z	   10 Query	INSERT INTO `payments` VALUES (5,3,15,'2019-01-15',80.31,1)
+2026-04-01T00:49:40.622602Z	   10 Query	INSERT INTO `payments` VALUES (6,3,17,'2019-01-15',68.10,1)
+2026-04-01T00:49:40.623925Z	   10 Query	INSERT INTO `payments` VALUES (7,5,18,'2019-01-08',32.77,1)
+2026-04-01T00:49:40.625250Z	   10 Query	INSERT INTO `payments` VALUES (8,5,18,'2019-01-08',10.00,2)
+2026-04-01T00:49:40.626499Z	   10 Query	DROP DATABASE IF EXISTS `sql_store`
+2026-04-01T00:49:40.647588Z	   10 Query	CREATE DATABASE `sql_store`
+2026-04-01T00:49:40.649409Z	   10 Query	USE `sql_store`
+2026-04-01T00:49:40.649527Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:49:40.649967Z	   10 Query	CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.661467Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.662130Z	   10 Query	INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21)
+2026-04-01T00:49:40.663527Z	   10 Query	INSERT INTO `products` VALUES (2,'Pork - Bacon,back Peameal',49,4.65)
+2026-04-01T00:49:40.671339Z	   10 Query	INSERT INTO `products` VALUES (3,'Lettuce - Romaine, Heart',38,3.35)
+2026-04-01T00:49:40.675332Z	   10 Query	INSERT INTO `products` VALUES (4,'Brocolinni - Gaylan, Chinese',90,4.53)
+2026-04-01T00:49:40.676704Z	   10 Query	INSERT INTO `products` VALUES (5,'Sauce - Ranch Dressing',94,1.63)
+2026-04-01T00:49:40.679756Z	   10 Query	INSERT INTO `products` VALUES (6,'Petit Baguette',14,2.39)
+2026-04-01T00:49:40.682007Z	   10 Query	INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29)
+2026-04-01T00:49:40.683707Z	   10 Query	INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74)
+2026-04-01T00:49:40.685611Z	   10 Query	INSERT INTO `products` VALUES (9,'Longan',67,2.26)
+2026-04-01T00:49:40.686828Z	   10 Query	INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09)
+2026-04-01T00:49:40.688363Z	   10 Query	CREATE TABLE `shippers` (
+  `shipper_id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`shipper_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.698161Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.698838Z	   10 Query	INSERT INTO `shippers` VALUES (1,'Hettinger LLC')
+2026-04-01T00:49:40.702374Z	   10 Query	INSERT INTO `shippers` VALUES (2,'Schinner-Predovic')
+2026-04-01T00:49:40.706961Z	   10 Query	INSERT INTO `shippers` VALUES (3,'Satterfield LLC')
+2026-04-01T00:49:40.708739Z	   10 Query	INSERT INTO `shippers` VALUES (4,'Mraz, Renner and Nolan')
+2026-04-01T00:49:40.710775Z	   10 Query	INSERT INTO `shippers` VALUES (5,'Waters, Mayert and Prohaska')
+2026-04-01T00:49:40.711972Z	   10 Query	CREATE TABLE `customers` (
+  `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `birth_date` date DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` char(2) NOT NULL,
+  `points` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`customer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.718718Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.719897Z	   10 Query	INSERT INTO `customers` VALUES (1,'Babara','MacCaffrey','1986-03-28','781-932-9754','0 Sage Terrace','Waltham','MA',2273)
+2026-04-01T00:49:40.723127Z	   10 Query	INSERT INTO `customers` VALUES (2,'Ines','Brushfield','1986-04-13','804-427-9456','14187 Commercial Trail','Hampton','VA',947)
+2026-04-01T00:49:40.724216Z	   10 Query	INSERT INTO `customers` VALUES (3,'Freddi','Boagey','1985-02-07','719-724-7869','251 Springs Junction','Colorado Springs','CO',2967)
+2026-04-01T00:49:40.727524Z	   10 Query	INSERT INTO `customers` VALUES (4,'Ambur','Roseburgh','1974-04-14','407-231-8017','30 Arapahoe Terrace','Orlando','FL',457)
+2026-04-01T00:49:40.728776Z	   10 Query	INSERT INTO `customers` VALUES (5,'Clemmie','Betchley','1973-11-07',NULL,'5 Spohn Circle','Arlington','TX',3675)
+2026-04-01T00:49:40.729859Z	   10 Query	INSERT INTO `customers` VALUES (6,'Elka','Twiddell','1991-09-04','312-480-8498','7 Manley Drive','Chicago','IL',3073)
+2026-04-01T00:49:40.731026Z	   10 Query	INSERT INTO `customers` VALUES (7,'Ilene','Dowson','1964-08-30','615-641-4759','50 Lillian Crossing','Nashville','TN',1672)
+2026-04-01T00:49:40.732515Z	   10 Query	INSERT INTO `customers` VALUES (8,'Thacher','Naseby','1993-07-17','941-527-3977','538 Mosinee Center','Sarasota','FL',205)
+2026-04-01T00:49:40.733791Z	   10 Query	INSERT INTO `customers` VALUES (9,'Romola','Rumgay','1992-05-23','559-181-3744','3520 Ohio Trail','Visalia','CA',1486)
+2026-04-01T00:49:40.734750Z	   10 Query	INSERT INTO `customers` VALUES (10,'Levy','Mynett','1969-10-13','404-246-3370','68 Lawn Avenue','Atlanta','GA',796)
+2026-04-01T00:49:40.735937Z	   10 Query	CREATE TABLE `order_statuses` (
+  `order_status_id` tinyint(4) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`order_status_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.741988Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.742641Z	   10 Query	INSERT INTO `order_statuses` VALUES (1,'Processed')
+2026-04-01T00:49:40.744165Z	   10 Query	INSERT INTO `order_statuses` VALUES (2,'Shipped')
+2026-04-01T00:49:40.750494Z	   10 Query	INSERT INTO `order_statuses` VALUES (3,'Delivered')
+2026-04-01T00:49:40.751978Z	   10 Query	CREATE TABLE `orders` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `order_date` date NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `comments` varchar(2000) DEFAULT NULL,
+  `shipped_date` date DEFAULT NULL,
+  `shipper_id` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`order_id`),
+  KEY `fk_orders_customers_idx` (`customer_id`),
+  KEY `fk_orders_shippers_idx` (`shipper_id`),
+  KEY `fk_orders_order_statuses_idx` (`status`),
+  CONSTRAINT `fk_orders_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_order_statuses` FOREIGN KEY (`status`) REFERENCES `order_statuses` (`order_status_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_shippers` FOREIGN KEY (`shipper_id`) REFERENCES `shippers` (`shipper_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.767837Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.768467Z	   10 Query	INSERT INTO `orders` VALUES (1,6,'2019-01-30',1,NULL,NULL,NULL)
+2026-04-01T00:49:40.769983Z	   10 Query	INSERT INTO `orders` VALUES (2,7,'2018-08-02',2,NULL,'2018-08-03',4)
+2026-04-01T00:49:40.776488Z	   10 Query	INSERT INTO `orders` VALUES (3,8,'2017-12-01',1,NULL,NULL,NULL)
+2026-04-01T00:49:40.778285Z	   10 Query	INSERT INTO `orders` VALUES (4,2,'2017-01-22',1,NULL,NULL,NULL)
+2026-04-01T00:49:40.779370Z	   10 Query	INSERT INTO `orders` VALUES (5,5,'2017-08-25',2,'','2017-08-26',3)
+2026-04-01T00:49:40.780570Z	   10 Query	INSERT INTO `orders` VALUES (6,10,'2018-11-18',1,'Aliquam erat volutpat. In congue.',NULL,NULL)
+2026-04-01T00:49:40.781777Z	   10 Query	INSERT INTO `orders` VALUES (7,2,'2018-09-22',2,NULL,'2018-09-23',4)
+2026-04-01T00:49:40.782859Z	   10 Query	INSERT INTO `orders` VALUES (8,5,'2018-06-08',1,'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.',NULL,NULL)
+2026-04-01T00:49:40.784082Z	   10 Query	INSERT INTO `orders` VALUES (9,10,'2017-07-05',2,'Nulla mollis molestie lorem. Quisque ut erat.','2017-07-06',1)
+2026-04-01T00:49:40.785213Z	   10 Query	INSERT INTO `orders` VALUES (10,6,'2018-04-22',2,NULL,'2018-04-23',2)
+2026-04-01T00:49:40.786493Z	   10 Query	CREATE TABLE `order_items` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`order_id`,`product_id`),
+  KEY `fk_order_items_products_idx` (`product_id`),
+  CONSTRAINT `fk_order_items_orders` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_order_items_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.800912Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.801581Z	   10 Query	INSERT INTO `order_items` VALUES (1,4,4,3.74)
+2026-04-01T00:49:40.803061Z	   10 Query	INSERT INTO `order_items` VALUES (2,1,2,9.10)
+2026-04-01T00:49:40.809662Z	   10 Query	INSERT INTO `order_items` VALUES (2,4,4,1.66)
+2026-04-01T00:49:40.811965Z	   10 Query	INSERT INTO `order_items` VALUES (2,6,2,2.94)
+2026-04-01T00:49:40.813258Z	   10 Query	INSERT INTO `order_items` VALUES (3,3,10,9.12)
+2026-04-01T00:49:40.814620Z	   10 Query	INSERT INTO `order_items` VALUES (4,3,7,6.99)
+2026-04-01T00:49:40.815851Z	   10 Query	INSERT INTO `order_items` VALUES (4,10,7,6.40)
+2026-04-01T00:49:40.817060Z	   10 Query	INSERT INTO `order_items` VALUES (5,2,3,9.89)
+2026-04-01T00:49:40.818840Z	   10 Query	INSERT INTO `order_items` VALUES (6,1,4,8.65)
+2026-04-01T00:49:40.823476Z	   10 Query	INSERT INTO `order_items` VALUES (6,2,4,3.28)
+2026-04-01T00:49:40.824756Z	   10 Query	INSERT INTO `order_items` VALUES (6,3,4,7.46)
+2026-04-01T00:49:40.826079Z	   10 Query	INSERT INTO `order_items` VALUES (6,5,1,3.45)
+2026-04-01T00:49:40.831101Z	   10 Query	INSERT INTO `order_items` VALUES (7,3,7,9.17)
+2026-04-01T00:49:40.832387Z	   10 Query	INSERT INTO `order_items` VALUES (8,5,2,6.94)
+2026-04-01T00:49:40.833630Z	   10 Query	INSERT INTO `order_items` VALUES (8,8,2,8.59)
+2026-04-01T00:49:40.835475Z	   10 Query	INSERT INTO `order_items` VALUES (9,6,5,7.28)
+2026-04-01T00:49:40.838481Z	   10 Query	INSERT INTO `order_items` VALUES (10,1,10,6.01)
+2026-04-01T00:49:40.840203Z	   10 Query	INSERT INTO `order_items` VALUES (10,9,9,4.28)
+2026-04-01T00:49:40.841614Z	   10 Query	CREATE TABLE `sql_store`.`order_item_notes` (
+  `note_id` INT NOT NULL,
+  `order_Id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `note` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`note_id`))
+2026-04-01T00:49:40.852855Z	   10 Query	INSERT INTO `order_item_notes` (`note_id`, `order_Id`, `product_id`, `note`) VALUES ('1', '1', '2', 'first note')
+2026-04-01T00:49:40.854633Z	   10 Query	INSERT INTO `order_item_notes` (`note_id`, `order_Id`, `product_id`, `note`) VALUES ('2', '1', '2', 'second note')
+2026-04-01T00:49:40.855792Z	   10 Query	DROP DATABASE IF EXISTS `sql_hr`
+2026-04-01T00:49:40.866397Z	   10 Query	CREATE DATABASE `sql_hr`
+2026-04-01T00:49:40.868352Z	   10 Query	USE `sql_hr`
+2026-04-01T00:49:40.868491Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:49:40.868936Z	   10 Query	CREATE TABLE `offices` (
+  `office_id` int(11) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` varchar(50) NOT NULL,
+  PRIMARY KEY (`office_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.876351Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.877102Z	   10 Query	INSERT INTO `offices` VALUES (1,'03 Reinke Trail','Cincinnati','OH')
+2026-04-01T00:49:40.878908Z	   10 Query	INSERT INTO `offices` VALUES (2,'5507 Becker Terrace','New York City','NY')
+2026-04-01T00:49:40.882933Z	   10 Query	INSERT INTO `offices` VALUES (3,'54 Northland Court','Richmond','VA')
+2026-04-01T00:49:40.884220Z	   10 Query	INSERT INTO `offices` VALUES (4,'08 South Crossing','Cincinnati','OH')
+2026-04-01T00:49:40.885382Z	   10 Query	INSERT INTO `offices` VALUES (5,'553 Maple Drive','Minneapolis','MN')
+2026-04-01T00:49:40.887146Z	   10 Query	INSERT INTO `offices` VALUES (6,'23 North Plaza','Aurora','CO')
+2026-04-01T00:49:40.888385Z	   10 Query	INSERT INTO `offices` VALUES (7,'9658 Wayridge Court','Boise','ID')
+2026-04-01T00:49:40.889684Z	   10 Query	INSERT INTO `offices` VALUES (8,'9 Grayhawk Trail','New York City','NY')
+2026-04-01T00:49:40.892570Z	   10 Query	INSERT INTO `offices` VALUES (9,'16862 Westend Hill','Knoxville','TN')
+2026-04-01T00:49:40.894288Z	   10 Query	INSERT INTO `offices` VALUES (10,'4 Bluestem Parkway','Savannah','GA')
+2026-04-01T00:49:40.895862Z	   10 Query	CREATE TABLE `employees` (
+  `employee_id` int(11) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `job_title` varchar(50) NOT NULL,
+  `salary` int(11) NOT NULL,
+  `reports_to` int(11) DEFAULT NULL,
+  `office_id` int(11) NOT NULL,
+  PRIMARY KEY (`employee_id`),
+  KEY `fk_employees_offices_idx` (`office_id`),
+  KEY `fk_employees_employees_idx` (`reports_to`),
+  CONSTRAINT `fk_employees_managers` FOREIGN KEY (`reports_to`) REFERENCES `employees` (`employee_id`),
+  CONSTRAINT `fk_employees_offices` FOREIGN KEY (`office_id`) REFERENCES `offices` (`office_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.911581Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.912270Z	   10 Query	INSERT INTO `employees` VALUES (37270,'Yovonnda','Magrannell','Executive Secretary',63996,NULL,10)
+2026-04-01T00:49:40.914375Z	   10 Query	INSERT INTO `employees` VALUES (33391,'D\'arcy','Nortunen','Account Executive',62871,37270,1)
+2026-04-01T00:49:40.918078Z	   10 Query	INSERT INTO `employees` VALUES (37851,'Sayer','Matterson','Statistician III',98926,37270,1)
+2026-04-01T00:49:40.919492Z	   10 Query	INSERT INTO `employees` VALUES (40448,'Mindy','Crissil','Staff Scientist',94860,37270,1)
+2026-04-01T00:49:40.920976Z	   10 Query	INSERT INTO `employees` VALUES (56274,'Keriann','Alloisi','VP Marketing',110150,37270,1)
+2026-04-01T00:49:40.922223Z	   10 Query	INSERT INTO `employees` VALUES (63196,'Alaster','Scutchin','Assistant Professor',32179,37270,2)
+2026-04-01T00:49:40.923463Z	   10 Query	INSERT INTO `employees` VALUES (67009,'North','de Clerc','VP Product Management',114257,37270,2)
+2026-04-01T00:49:40.924703Z	   10 Query	INSERT INTO `employees` VALUES (67370,'Elladine','Rising','Social Worker',96767,37270,2)
+2026-04-01T00:49:40.925991Z	   10 Query	INSERT INTO `employees` VALUES (68249,'Nisse','Voysey','Financial Advisor',52832,37270,2)
+2026-04-01T00:49:40.927266Z	   10 Query	INSERT INTO `employees` VALUES (72540,'Guthrey','Iacopetti','Office Assistant I',117690,37270,3)
+2026-04-01T00:49:40.928562Z	   10 Query	INSERT INTO `employees` VALUES (72913,'Kass','Hefferan','Computer Systems Analyst IV',96401,37270,3)
+2026-04-01T00:49:40.929934Z	   10 Query	INSERT INTO `employees` VALUES (75900,'Virge','Goodrum','Information Systems Manager',54578,37270,3)
+2026-04-01T00:49:40.931198Z	   10 Query	INSERT INTO `employees` VALUES (76196,'Mirilla','Janowski','Cost Accountant',119241,37270,3)
+2026-04-01T00:49:40.932495Z	   10 Query	INSERT INTO `employees` VALUES (80529,'Lynde','Aronson','Junior Executive',77182,37270,4)
+2026-04-01T00:49:40.934038Z	   10 Query	INSERT INTO `employees` VALUES (80679,'Mildrid','Sokale','Geologist II',67987,37270,4)
+2026-04-01T00:49:40.935135Z	   10 Query	INSERT INTO `employees` VALUES (84791,'Hazel','Tarbert','General Manager',93760,37270,4)
+2026-04-01T00:49:40.936288Z	   10 Query	INSERT INTO `employees` VALUES (95213,'Cole','Kesterton','Pharmacist',86119,37270,4)
+2026-04-01T00:49:40.937544Z	   10 Query	INSERT INTO `employees` VALUES (96513,'Theresa','Binney','Food Chemist',47354,37270,5)
+2026-04-01T00:49:40.938653Z	   10 Query	INSERT INTO `employees` VALUES (98374,'Estrellita','Daleman','Staff Accountant IV',70187,37270,5)
+2026-04-01T00:49:40.939719Z	   10 Query	INSERT INTO `employees` VALUES (115357,'Ivy','Fearey','Structural Engineer',92710,37270,5)
+2026-04-01T00:49:40.941003Z	   10 Query	DROP DATABASE IF EXISTS `sql_inventory`
+2026-04-01T00:49:40.946174Z	   10 Query	CREATE DATABASE `sql_inventory`
+2026-04-01T00:49:40.948038Z	   10 Query	USE `sql_inventory`
+2026-04-01T00:49:40.948165Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:49:40.948596Z	   10 Query	CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:49:40.956164Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:49:40.956958Z	   10 Query	INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21)
+2026-04-01T00:49:40.959277Z	   10 Query	INSERT INTO `products` VALUES (2,'Pork - Bacon,back Peameal',49,4.65)
+2026-04-01T00:49:40.960398Z	   10 Query	INSERT INTO `products` VALUES (3,'Lettuce - Romaine, Heart',38,3.35)
+2026-04-01T00:49:40.961902Z	   10 Query	INSERT INTO `products` VALUES (4,'Brocolinni - Gaylan, Chinese',90,4.53)
+2026-04-01T00:49:40.963273Z	   10 Query	INSERT INTO `products` VALUES (5,'Sauce - Ranch Dressing',94,1.63)
+2026-04-01T00:49:40.964504Z	   10 Query	INSERT INTO `products` VALUES (6,'Petit Baguette',14,2.39)
+2026-04-01T00:49:40.965641Z	   10 Query	INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29)
+2026-04-01T00:49:40.967178Z	   10 Query	INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74)
+2026-04-01T00:49:40.968529Z	   10 Query	INSERT INTO `products` VALUES (9,'Longan',67,2.26)
+2026-04-01T00:49:40.970151Z	   10 Query	INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09)
+2026-04-01T00:49:40.972439Z	   10 Query	set global general_log = 'on'
+2026-04-01T00:49:40.972795Z	   10 Query	show variables like 'general_log_file'
+2026-04-01T00:49:40.978782Z	   10 Query	select*from sql_invoicing.clients
+LIMIT 0, 1000
+2026-04-01T00:49:40.982251Z	    9 Query	SHOW INDEX FROM `sql_invoicing`.`clients`
+2026-04-01T00:49:40.985342Z	   10 Query	insert into sql_invoicing.clients
+(client_id, name, address, city, state, phone)
+values
+(6, 'TestClient', '123 Test Street', 'TestCity', 'TC', '999-999-999')
+2026-04-01T00:50:39.758213Z	   10 Query	DROP DATABASE IF EXISTS `sql_invoicing`
+2026-04-01T00:50:39.776813Z	   10 Query	CREATE DATABASE `sql_invoicing`
+2026-04-01T00:50:39.778809Z	   10 Query	USE `sql_invoicing`
+2026-04-01T00:50:39.778943Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:50:39.779356Z	   10 Query	SET NAMES utf8
+2026-04-01T00:50:39.779408Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:39.779843Z	   10 Query	SET character_set_client = utf8mb4
+2026-04-01T00:50:39.780265Z	   10 Query	CREATE TABLE `payment_methods` (
+  `payment_method_id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`payment_method_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:39.788167Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:39.788902Z	   10 Query	INSERT INTO `payment_methods` VALUES (1,'Credit Card')
+2026-04-01T00:50:39.790472Z	   10 Query	INSERT INTO `payment_methods` VALUES (2,'Cash')
+2026-04-01T00:50:39.793834Z	   10 Query	INSERT INTO `payment_methods` VALUES (3,'PayPal')
+2026-04-01T00:50:39.795304Z	   10 Query	INSERT INTO `payment_methods` VALUES (4,'Wire Transfer')
+2026-04-01T00:50:39.797015Z	   10 Query	CREATE TABLE `clients` (
+  `client_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` char(2) NOT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:39.804894Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:39.805588Z	   10 Query	INSERT INTO `clients` VALUES (1,'Vinte','3 Nevada Parkway','Syracuse','NY','315-252-7305')
+2026-04-01T00:50:39.807607Z	   10 Query	INSERT INTO `clients` VALUES (2,'Myworks','34267 Glendale Parkway','Huntington','WV','304-659-1170')
+2026-04-01T00:50:39.809069Z	   10 Query	INSERT INTO `clients` VALUES (3,'Yadel','096 Pawling Parkway','San Francisco','CA','415-144-6037')
+2026-04-01T00:50:39.810681Z	   10 Query	INSERT INTO `clients` VALUES (4,'Kwideo','81674 Westerfield Circle','Waco','TX','254-750-0784')
+2026-04-01T00:50:39.812057Z	   10 Query	INSERT INTO `clients` VALUES (5,'Topiclounge','0863 Farmco Road','Portland','OR','971-888-9129')
+2026-04-01T00:50:39.813540Z	   10 Query	CREATE TABLE `invoices` (
+  `invoice_id` int(11) NOT NULL,
+  `number` varchar(50) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `invoice_total` decimal(9,2) NOT NULL,
+  `payment_total` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `invoice_date` date NOT NULL,
+  `due_date` date NOT NULL,
+  `payment_date` date DEFAULT NULL,
+  PRIMARY KEY (`invoice_id`),
+  KEY `FK_client_id` (`client_id`),
+  CONSTRAINT `FK_client_id` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:39.829211Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:39.829945Z	   10 Query	INSERT INTO `invoices` VALUES (1,'91-953-3396',2,101.79,0.00,'2019-03-09','2019-03-29',NULL)
+2026-04-01T00:50:39.831959Z	   10 Query	INSERT INTO `invoices` VALUES (2,'03-898-6735',5,175.32,8.18,'2019-06-11','2019-07-01','2019-02-12')
+2026-04-01T00:50:39.833746Z	   10 Query	INSERT INTO `invoices` VALUES (3,'20-228-0335',5,147.99,0.00,'2019-07-31','2019-08-20',NULL)
+2026-04-01T00:50:39.834973Z	   10 Query	INSERT INTO `invoices` VALUES (4,'56-934-0748',3,152.21,0.00,'2019-03-08','2019-03-28',NULL)
+2026-04-01T00:50:39.836317Z	   10 Query	INSERT INTO `invoices` VALUES (5,'87-052-3121',5,169.36,0.00,'2019-07-18','2019-08-07',NULL)
+2026-04-01T00:50:39.837738Z	   10 Query	INSERT INTO `invoices` VALUES (6,'75-587-6626',1,157.78,74.55,'2019-01-29','2019-02-18','2019-01-03')
+2026-04-01T00:50:39.839328Z	   10 Query	INSERT INTO `invoices` VALUES (7,'68-093-9863',3,133.87,0.00,'2019-09-04','2019-09-24',NULL)
+2026-04-01T00:50:39.840817Z	   10 Query	INSERT INTO `invoices` VALUES (8,'78-145-1093',1,189.12,0.00,'2019-05-20','2019-06-09',NULL)
+2026-04-01T00:50:39.842227Z	   10 Query	INSERT INTO `invoices` VALUES (9,'77-593-0081',5,172.17,0.00,'2019-07-09','2019-07-29',NULL)
+2026-04-01T00:50:39.843425Z	   10 Query	INSERT INTO `invoices` VALUES (10,'48-266-1517',1,159.50,0.00,'2019-06-30','2019-07-20',NULL)
+2026-04-01T00:50:39.844838Z	   10 Query	INSERT INTO `invoices` VALUES (11,'20-848-0181',3,126.15,0.03,'2019-01-07','2019-01-27','2019-01-11')
+2026-04-01T00:50:39.846230Z	   10 Query	INSERT INTO `invoices` VALUES (13,'41-666-1035',5,135.01,87.44,'2019-06-25','2019-07-15','2019-01-26')
+2026-04-01T00:50:39.847593Z	   10 Query	INSERT INTO `invoices` VALUES (15,'55-105-9605',3,167.29,80.31,'2019-11-25','2019-12-15','2019-01-15')
+2026-04-01T00:50:39.848982Z	   10 Query	INSERT INTO `invoices` VALUES (16,'10-451-8824',1,162.02,0.00,'2019-03-30','2019-04-19',NULL)
+2026-04-01T00:50:39.850355Z	   10 Query	INSERT INTO `invoices` VALUES (17,'33-615-4694',3,126.38,68.10,'2019-07-30','2019-08-19','2019-01-15')
+2026-04-01T00:50:39.852112Z	   10 Query	INSERT INTO `invoices` VALUES (18,'52-269-9803',5,180.17,42.77,'2019-05-23','2019-06-12','2019-01-08')
+2026-04-01T00:50:39.853568Z	   10 Query	INSERT INTO `invoices` VALUES (19,'83-559-4105',1,134.47,0.00,'2019-11-23','2019-12-13',NULL)
+2026-04-01T00:50:39.854994Z	   10 Query	CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `amount` decimal(9,2) NOT NULL,
+  `payment_method` tinyint(4) NOT NULL,
+  PRIMARY KEY (`payment_id`),
+  KEY `fk_client_id_idx` (`client_id`),
+  KEY `fk_invoice_id_idx` (`invoice_id`),
+  KEY `fk_payment_payment_method_idx` (`payment_method`),
+  CONSTRAINT `fk_payment_client` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_payment_invoice` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`invoice_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_payment_payment_method` FOREIGN KEY (`payment_method`) REFERENCES `payment_methods` (`payment_method_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:39.873698Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:39.874418Z	   10 Query	INSERT INTO `payments` VALUES (1,5,2,'2019-02-12',8.18,1)
+2026-04-01T00:50:39.876205Z	   10 Query	INSERT INTO `payments` VALUES (2,1,6,'2019-01-03',74.55,1)
+2026-04-01T00:50:39.878136Z	   10 Query	INSERT INTO `payments` VALUES (3,3,11,'2019-01-11',0.03,1)
+2026-04-01T00:50:39.879661Z	   10 Query	INSERT INTO `payments` VALUES (4,5,13,'2019-01-26',87.44,1)
+2026-04-01T00:50:39.881165Z	   10 Query	INSERT INTO `payments` VALUES (5,3,15,'2019-01-15',80.31,1)
+2026-04-01T00:50:39.882864Z	   10 Query	INSERT INTO `payments` VALUES (6,3,17,'2019-01-15',68.10,1)
+2026-04-01T00:50:39.884107Z	   10 Query	INSERT INTO `payments` VALUES (7,5,18,'2019-01-08',32.77,1)
+2026-04-01T00:50:39.885654Z	   10 Query	INSERT INTO `payments` VALUES (8,5,18,'2019-01-08',10.00,2)
+2026-04-01T00:50:39.886919Z	   10 Query	DROP DATABASE IF EXISTS `sql_store`
+2026-04-01T00:50:39.907820Z	   10 Query	CREATE DATABASE `sql_store`
+2026-04-01T00:50:39.909693Z	   10 Query	USE `sql_store`
+2026-04-01T00:50:39.909800Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:50:39.910236Z	   10 Query	CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:39.917382Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:39.918254Z	   10 Query	INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21)
+2026-04-01T00:50:39.919683Z	   10 Query	INSERT INTO `products` VALUES (2,'Pork - Bacon,back Peameal',49,4.65)
+2026-04-01T00:50:39.920658Z	   10 Query	INSERT INTO `products` VALUES (3,'Lettuce - Romaine, Heart',38,3.35)
+2026-04-01T00:50:39.921660Z	   10 Query	INSERT INTO `products` VALUES (4,'Brocolinni - Gaylan, Chinese',90,4.53)
+2026-04-01T00:50:39.922862Z	   10 Query	INSERT INTO `products` VALUES (5,'Sauce - Ranch Dressing',94,1.63)
+2026-04-01T00:50:39.924611Z	   10 Query	INSERT INTO `products` VALUES (6,'Petit Baguette',14,2.39)
+2026-04-01T00:50:39.925888Z	   10 Query	INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29)
+2026-04-01T00:50:39.927001Z	   10 Query	INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74)
+2026-04-01T00:50:39.927995Z	   10 Query	INSERT INTO `products` VALUES (9,'Longan',67,2.26)
+2026-04-01T00:50:39.929072Z	   10 Query	INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09)
+2026-04-01T00:50:39.930170Z	   10 Query	CREATE TABLE `shippers` (
+  `shipper_id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`shipper_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:39.939103Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:39.939790Z	   10 Query	INSERT INTO `shippers` VALUES (1,'Hettinger LLC')
+2026-04-01T00:50:39.941232Z	   10 Query	INSERT INTO `shippers` VALUES (2,'Schinner-Predovic')
+2026-04-01T00:50:39.942473Z	   10 Query	INSERT INTO `shippers` VALUES (3,'Satterfield LLC')
+2026-04-01T00:50:39.943491Z	   10 Query	INSERT INTO `shippers` VALUES (4,'Mraz, Renner and Nolan')
+2026-04-01T00:50:39.944492Z	   10 Query	INSERT INTO `shippers` VALUES (5,'Waters, Mayert and Prohaska')
+2026-04-01T00:50:39.945639Z	   10 Query	CREATE TABLE `customers` (
+  `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `birth_date` date DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` char(2) NOT NULL,
+  `points` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`customer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:39.954412Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:39.955121Z	   10 Query	INSERT INTO `customers` VALUES (1,'Babara','MacCaffrey','1986-03-28','781-932-9754','0 Sage Terrace','Waltham','MA',2273)
+2026-04-01T00:50:39.956966Z	   10 Query	INSERT INTO `customers` VALUES (2,'Ines','Brushfield','1986-04-13','804-427-9456','14187 Commercial Trail','Hampton','VA',947)
+2026-04-01T00:50:39.960633Z	   10 Query	INSERT INTO `customers` VALUES (3,'Freddi','Boagey','1985-02-07','719-724-7869','251 Springs Junction','Colorado Springs','CO',2967)
+2026-04-01T00:50:39.961717Z	   10 Query	INSERT INTO `customers` VALUES (4,'Ambur','Roseburgh','1974-04-14','407-231-8017','30 Arapahoe Terrace','Orlando','FL',457)
+2026-04-01T00:50:39.962736Z	   10 Query	INSERT INTO `customers` VALUES (5,'Clemmie','Betchley','1973-11-07',NULL,'5 Spohn Circle','Arlington','TX',3675)
+2026-04-01T00:50:39.964047Z	   10 Query	INSERT INTO `customers` VALUES (6,'Elka','Twiddell','1991-09-04','312-480-8498','7 Manley Drive','Chicago','IL',3073)
+2026-04-01T00:50:39.965095Z	   10 Query	INSERT INTO `customers` VALUES (7,'Ilene','Dowson','1964-08-30','615-641-4759','50 Lillian Crossing','Nashville','TN',1672)
+2026-04-01T00:50:39.966324Z	   10 Query	INSERT INTO `customers` VALUES (8,'Thacher','Naseby','1993-07-17','941-527-3977','538 Mosinee Center','Sarasota','FL',205)
+2026-04-01T00:50:39.967935Z	   10 Query	INSERT INTO `customers` VALUES (9,'Romola','Rumgay','1992-05-23','559-181-3744','3520 Ohio Trail','Visalia','CA',1486)
+2026-04-01T00:50:39.973772Z	   10 Query	INSERT INTO `customers` VALUES (10,'Levy','Mynett','1969-10-13','404-246-3370','68 Lawn Avenue','Atlanta','GA',796)
+2026-04-01T00:50:39.974950Z	   10 Query	CREATE TABLE `order_statuses` (
+  `order_status_id` tinyint(4) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`order_status_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:39.981330Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:39.982012Z	   10 Query	INSERT INTO `order_statuses` VALUES (1,'Processed')
+2026-04-01T00:50:39.983453Z	   10 Query	INSERT INTO `order_statuses` VALUES (2,'Shipped')
+2026-04-01T00:50:39.984449Z	   10 Query	INSERT INTO `order_statuses` VALUES (3,'Delivered')
+2026-04-01T00:50:39.985809Z	   10 Query	CREATE TABLE `orders` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `order_date` date NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `comments` varchar(2000) DEFAULT NULL,
+  `shipped_date` date DEFAULT NULL,
+  `shipper_id` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`order_id`),
+  KEY `fk_orders_customers_idx` (`customer_id`),
+  KEY `fk_orders_shippers_idx` (`shipper_id`),
+  KEY `fk_orders_order_statuses_idx` (`status`),
+  CONSTRAINT `fk_orders_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_order_statuses` FOREIGN KEY (`status`) REFERENCES `order_statuses` (`order_status_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_shippers` FOREIGN KEY (`shipper_id`) REFERENCES `shippers` (`shipper_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:40.001522Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:40.002191Z	   10 Query	INSERT INTO `orders` VALUES (1,6,'2019-01-30',1,NULL,NULL,NULL)
+2026-04-01T00:50:40.003866Z	   10 Query	INSERT INTO `orders` VALUES (2,7,'2018-08-02',2,NULL,'2018-08-03',4)
+2026-04-01T00:50:40.005190Z	   10 Query	INSERT INTO `orders` VALUES (3,8,'2017-12-01',1,NULL,NULL,NULL)
+2026-04-01T00:50:40.006198Z	   10 Query	INSERT INTO `orders` VALUES (4,2,'2017-01-22',1,NULL,NULL,NULL)
+2026-04-01T00:50:40.007276Z	   10 Query	INSERT INTO `orders` VALUES (5,5,'2017-08-25',2,'','2017-08-26',3)
+2026-04-01T00:50:40.009377Z	   10 Query	INSERT INTO `orders` VALUES (6,10,'2018-11-18',1,'Aliquam erat volutpat. In congue.',NULL,NULL)
+2026-04-01T00:50:40.010502Z	   10 Query	INSERT INTO `orders` VALUES (7,2,'2018-09-22',2,NULL,'2018-09-23',4)
+2026-04-01T00:50:40.011566Z	   10 Query	INSERT INTO `orders` VALUES (8,5,'2018-06-08',1,'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.',NULL,NULL)
+2026-04-01T00:50:40.012685Z	   10 Query	INSERT INTO `orders` VALUES (9,10,'2017-07-05',2,'Nulla mollis molestie lorem. Quisque ut erat.','2017-07-06',1)
+2026-04-01T00:50:40.013856Z	   10 Query	INSERT INTO `orders` VALUES (10,6,'2018-04-22',2,NULL,'2018-04-23',2)
+2026-04-01T00:50:40.015007Z	   10 Query	CREATE TABLE `order_items` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`order_id`,`product_id`),
+  KEY `fk_order_items_products_idx` (`product_id`),
+  CONSTRAINT `fk_order_items_orders` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_order_items_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:40.025691Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:40.026302Z	   10 Query	INSERT INTO `order_items` VALUES (1,4,4,3.74)
+2026-04-01T00:50:40.027887Z	   10 Query	INSERT INTO `order_items` VALUES (2,1,2,9.10)
+2026-04-01T00:50:40.029360Z	   10 Query	INSERT INTO `order_items` VALUES (2,4,4,1.66)
+2026-04-01T00:50:40.030580Z	   10 Query	INSERT INTO `order_items` VALUES (2,6,2,2.94)
+2026-04-01T00:50:40.031693Z	   10 Query	INSERT INTO `order_items` VALUES (3,3,10,9.12)
+2026-04-01T00:50:40.034434Z	   10 Query	INSERT INTO `order_items` VALUES (4,3,7,6.99)
+2026-04-01T00:50:40.035593Z	   10 Query	INSERT INTO `order_items` VALUES (4,10,7,6.40)
+2026-04-01T00:50:40.036666Z	   10 Query	INSERT INTO `order_items` VALUES (5,2,3,9.89)
+2026-04-01T00:50:40.037832Z	   10 Query	INSERT INTO `order_items` VALUES (6,1,4,8.65)
+2026-04-01T00:50:40.038838Z	   10 Query	INSERT INTO `order_items` VALUES (6,2,4,3.28)
+2026-04-01T00:50:40.040105Z	   10 Query	INSERT INTO `order_items` VALUES (6,3,4,7.46)
+2026-04-01T00:50:40.041087Z	   10 Query	INSERT INTO `order_items` VALUES (6,5,1,3.45)
+2026-04-01T00:50:40.042172Z	   10 Query	INSERT INTO `order_items` VALUES (7,3,7,9.17)
+2026-04-01T00:50:40.043289Z	   10 Query	INSERT INTO `order_items` VALUES (8,5,2,6.94)
+2026-04-01T00:50:40.044821Z	   10 Query	INSERT INTO `order_items` VALUES (8,8,2,8.59)
+2026-04-01T00:50:40.045952Z	   10 Query	INSERT INTO `order_items` VALUES (9,6,5,7.28)
+2026-04-01T00:50:40.046963Z	   10 Query	INSERT INTO `order_items` VALUES (10,1,10,6.01)
+2026-04-01T00:50:40.047926Z	   10 Query	INSERT INTO `order_items` VALUES (10,9,9,4.28)
+2026-04-01T00:50:40.049180Z	   10 Query	CREATE TABLE `sql_store`.`order_item_notes` (
+  `note_id` INT NOT NULL,
+  `order_Id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `note` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`note_id`))
+2026-04-01T00:50:40.055628Z	   10 Query	INSERT INTO `order_item_notes` (`note_id`, `order_Id`, `product_id`, `note`) VALUES ('1', '1', '2', 'first note')
+2026-04-01T00:50:40.057036Z	   10 Query	INSERT INTO `order_item_notes` (`note_id`, `order_Id`, `product_id`, `note`) VALUES ('2', '1', '2', 'second note')
+2026-04-01T00:50:40.058070Z	   10 Query	DROP DATABASE IF EXISTS `sql_hr`
+2026-04-01T00:50:40.066095Z	   10 Query	CREATE DATABASE `sql_hr`
+2026-04-01T00:50:40.067860Z	   10 Query	USE `sql_hr`
+2026-04-01T00:50:40.067981Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:50:40.068388Z	   10 Query	CREATE TABLE `offices` (
+  `office_id` int(11) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` varchar(50) NOT NULL,
+  PRIMARY KEY (`office_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:40.075880Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:40.076596Z	   10 Query	INSERT INTO `offices` VALUES (1,'03 Reinke Trail','Cincinnati','OH')
+2026-04-01T00:50:40.080850Z	   10 Query	INSERT INTO `offices` VALUES (2,'5507 Becker Terrace','New York City','NY')
+2026-04-01T00:50:40.085296Z	   10 Query	INSERT INTO `offices` VALUES (3,'54 Northland Court','Richmond','VA')
+2026-04-01T00:50:40.086437Z	   10 Query	INSERT INTO `offices` VALUES (4,'08 South Crossing','Cincinnati','OH')
+2026-04-01T00:50:40.087555Z	   10 Query	INSERT INTO `offices` VALUES (5,'553 Maple Drive','Minneapolis','MN')
+2026-04-01T00:50:40.088738Z	   10 Query	INSERT INTO `offices` VALUES (6,'23 North Plaza','Aurora','CO')
+2026-04-01T00:50:40.090028Z	   10 Query	INSERT INTO `offices` VALUES (7,'9658 Wayridge Court','Boise','ID')
+2026-04-01T00:50:40.091019Z	   10 Query	INSERT INTO `offices` VALUES (8,'9 Grayhawk Trail','New York City','NY')
+2026-04-01T00:50:40.092104Z	   10 Query	INSERT INTO `offices` VALUES (9,'16862 Westend Hill','Knoxville','TN')
+2026-04-01T00:50:40.093253Z	   10 Query	INSERT INTO `offices` VALUES (10,'4 Bluestem Parkway','Savannah','GA')
+2026-04-01T00:50:40.094439Z	   10 Query	CREATE TABLE `employees` (
+  `employee_id` int(11) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `job_title` varchar(50) NOT NULL,
+  `salary` int(11) NOT NULL,
+  `reports_to` int(11) DEFAULT NULL,
+  `office_id` int(11) NOT NULL,
+  PRIMARY KEY (`employee_id`),
+  KEY `fk_employees_offices_idx` (`office_id`),
+  KEY `fk_employees_employees_idx` (`reports_to`),
+  CONSTRAINT `fk_employees_managers` FOREIGN KEY (`reports_to`) REFERENCES `employees` (`employee_id`),
+  CONSTRAINT `fk_employees_offices` FOREIGN KEY (`office_id`) REFERENCES `offices` (`office_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:40.108088Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:40.108766Z	   10 Query	INSERT INTO `employees` VALUES (37270,'Yovonnda','Magrannell','Executive Secretary',63996,NULL,10)
+2026-04-01T00:50:40.110522Z	   10 Query	INSERT INTO `employees` VALUES (33391,'D\'arcy','Nortunen','Account Executive',62871,37270,1)
+2026-04-01T00:50:40.111908Z	   10 Query	INSERT INTO `employees` VALUES (37851,'Sayer','Matterson','Statistician III',98926,37270,1)
+2026-04-01T00:50:40.112927Z	   10 Query	INSERT INTO `employees` VALUES (40448,'Mindy','Crissil','Staff Scientist',94860,37270,1)
+2026-04-01T00:50:40.114125Z	   10 Query	INSERT INTO `employees` VALUES (56274,'Keriann','Alloisi','VP Marketing',110150,37270,1)
+2026-04-01T00:50:40.115110Z	   10 Query	INSERT INTO `employees` VALUES (63196,'Alaster','Scutchin','Assistant Professor',32179,37270,2)
+2026-04-01T00:50:40.116339Z	   10 Query	INSERT INTO `employees` VALUES (67009,'North','de Clerc','VP Product Management',114257,37270,2)
+2026-04-01T00:50:40.117811Z	   10 Query	INSERT INTO `employees` VALUES (67370,'Elladine','Rising','Social Worker',96767,37270,2)
+2026-04-01T00:50:40.119207Z	   10 Query	INSERT INTO `employees` VALUES (68249,'Nisse','Voysey','Financial Advisor',52832,37270,2)
+2026-04-01T00:50:40.120409Z	   10 Query	INSERT INTO `employees` VALUES (72540,'Guthrey','Iacopetti','Office Assistant I',117690,37270,3)
+2026-04-01T00:50:40.121518Z	   10 Query	INSERT INTO `employees` VALUES (72913,'Kass','Hefferan','Computer Systems Analyst IV',96401,37270,3)
+2026-04-01T00:50:40.122973Z	   10 Query	INSERT INTO `employees` VALUES (75900,'Virge','Goodrum','Information Systems Manager',54578,37270,3)
+2026-04-01T00:50:40.124060Z	   10 Query	INSERT INTO `employees` VALUES (76196,'Mirilla','Janowski','Cost Accountant',119241,37270,3)
+2026-04-01T00:50:40.125073Z	   10 Query	INSERT INTO `employees` VALUES (80529,'Lynde','Aronson','Junior Executive',77182,37270,4)
+2026-04-01T00:50:40.126185Z	   10 Query	INSERT INTO `employees` VALUES (80679,'Mildrid','Sokale','Geologist II',67987,37270,4)
+2026-04-01T00:50:40.127595Z	   10 Query	INSERT INTO `employees` VALUES (84791,'Hazel','Tarbert','General Manager',93760,37270,4)
+2026-04-01T00:50:40.128764Z	   10 Query	INSERT INTO `employees` VALUES (95213,'Cole','Kesterton','Pharmacist',86119,37270,4)
+2026-04-01T00:50:40.129924Z	   10 Query	INSERT INTO `employees` VALUES (96513,'Theresa','Binney','Food Chemist',47354,37270,5)
+2026-04-01T00:50:40.130900Z	   10 Query	INSERT INTO `employees` VALUES (98374,'Estrellita','Daleman','Staff Accountant IV',70187,37270,5)
+2026-04-01T00:50:40.132096Z	   10 Query	INSERT INTO `employees` VALUES (115357,'Ivy','Fearey','Structural Engineer',92710,37270,5)
+2026-04-01T00:50:40.133286Z	   10 Query	DROP DATABASE IF EXISTS `sql_inventory`
+2026-04-01T00:50:40.137883Z	   10 Query	CREATE DATABASE `sql_inventory`
+2026-04-01T00:50:40.139504Z	   10 Query	USE `sql_inventory`
+2026-04-01T00:50:40.139617Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:50:40.140027Z	   10 Query	CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:50:40.146254Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:50:40.146909Z	   10 Query	INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21)
+2026-04-01T00:50:40.148418Z	   10 Query	INSERT INTO `products` VALUES (2,'Pork - Bacon,back Peameal',49,4.65)
+2026-04-01T00:50:40.149827Z	   10 Query	INSERT INTO `products` VALUES (3,'Lettuce - Romaine, Heart',38,3.35)
+2026-04-01T00:50:40.150884Z	   10 Query	INSERT INTO `products` VALUES (4,'Brocolinni - Gaylan, Chinese',90,4.53)
+2026-04-01T00:50:40.151941Z	   10 Query	INSERT INTO `products` VALUES (5,'Sauce - Ranch Dressing',94,1.63)
+2026-04-01T00:50:40.152956Z	   10 Query	INSERT INTO `products` VALUES (6,'Petit Baguette',14,2.39)
+2026-04-01T00:50:40.154434Z	   10 Query	INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29)
+2026-04-01T00:50:40.155784Z	   10 Query	INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74)
+2026-04-01T00:50:40.156985Z	   10 Query	INSERT INTO `products` VALUES (9,'Longan',67,2.26)
+2026-04-01T00:50:40.158102Z	   10 Query	INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09)
+2026-04-01T00:50:40.159125Z	   10 Query	set global general_log = 'on'
+2026-04-01T00:50:40.159464Z	   10 Query	show variables like 'general_log_file'
+2026-04-01T00:50:40.165200Z	   10 Query	select*from sql_invoicing.clients
+LIMIT 0, 1000
+2026-04-01T00:50:40.174207Z	    9 Query	SHOW INDEX FROM `sql_invoicing`.`clients`
+2026-04-01T00:50:40.181035Z	   10 Query	insert into sql_invoicing.clients
+(client_id, name, address, city, state, phone)
+values
+(6, 'TestClient', '123 Test Street', 'TestCity', 'TC', '999-999-999')
+2026-04-01T00:50:40.183762Z	   10 Query	update sql_invoicing.clients
+set city = 'UpdatedCity'
+where name = 'TestClient'
+2026-04-01T00:52:17.214305Z	   10 Query	DROP DATABASE IF EXISTS `sql_invoicing`
+2026-04-01T00:52:17.239027Z	   10 Query	CREATE DATABASE `sql_invoicing`
+2026-04-01T00:52:17.245573Z	   10 Query	USE `sql_invoicing`
+2026-04-01T00:52:17.245747Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:52:17.246190Z	   10 Query	SET NAMES utf8
+2026-04-01T00:52:17.246260Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.246863Z	   10 Query	SET character_set_client = utf8mb4
+2026-04-01T00:52:17.247310Z	   10 Query	CREATE TABLE `payment_methods` (
+  `payment_method_id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`payment_method_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.258972Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.259820Z	   10 Query	INSERT INTO `payment_methods` VALUES (1,'Credit Card')
+2026-04-01T00:52:17.261673Z	   10 Query	INSERT INTO `payment_methods` VALUES (2,'Cash')
+2026-04-01T00:52:17.263926Z	   10 Query	INSERT INTO `payment_methods` VALUES (3,'PayPal')
+2026-04-01T00:52:17.266047Z	   10 Query	INSERT INTO `payment_methods` VALUES (4,'Wire Transfer')
+2026-04-01T00:52:17.267489Z	   10 Query	CREATE TABLE `clients` (
+  `client_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` char(2) NOT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.275043Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.275799Z	   10 Query	INSERT INTO `clients` VALUES (1,'Vinte','3 Nevada Parkway','Syracuse','NY','315-252-7305')
+2026-04-01T00:52:17.277946Z	   10 Query	INSERT INTO `clients` VALUES (2,'Myworks','34267 Glendale Parkway','Huntington','WV','304-659-1170')
+2026-04-01T00:52:17.279222Z	   10 Query	INSERT INTO `clients` VALUES (3,'Yadel','096 Pawling Parkway','San Francisco','CA','415-144-6037')
+2026-04-01T00:52:17.280376Z	   10 Query	INSERT INTO `clients` VALUES (4,'Kwideo','81674 Westerfield Circle','Waco','TX','254-750-0784')
+2026-04-01T00:52:17.282574Z	   10 Query	INSERT INTO `clients` VALUES (5,'Topiclounge','0863 Farmco Road','Portland','OR','971-888-9129')
+2026-04-01T00:52:17.284204Z	   10 Query	CREATE TABLE `invoices` (
+  `invoice_id` int(11) NOT NULL,
+  `number` varchar(50) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `invoice_total` decimal(9,2) NOT NULL,
+  `payment_total` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `invoice_date` date NOT NULL,
+  `due_date` date NOT NULL,
+  `payment_date` date DEFAULT NULL,
+  PRIMARY KEY (`invoice_id`),
+  KEY `FK_client_id` (`client_id`),
+  CONSTRAINT `FK_client_id` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.297139Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.298019Z	   10 Query	INSERT INTO `invoices` VALUES (1,'91-953-3396',2,101.79,0.00,'2019-03-09','2019-03-29',NULL)
+2026-04-01T00:52:17.300650Z	   10 Query	INSERT INTO `invoices` VALUES (2,'03-898-6735',5,175.32,8.18,'2019-06-11','2019-07-01','2019-02-12')
+2026-04-01T00:52:17.306471Z	   10 Query	INSERT INTO `invoices` VALUES (3,'20-228-0335',5,147.99,0.00,'2019-07-31','2019-08-20',NULL)
+2026-04-01T00:52:17.308238Z	   10 Query	INSERT INTO `invoices` VALUES (4,'56-934-0748',3,152.21,0.00,'2019-03-08','2019-03-28',NULL)
+2026-04-01T00:52:17.309506Z	   10 Query	INSERT INTO `invoices` VALUES (5,'87-052-3121',5,169.36,0.00,'2019-07-18','2019-08-07',NULL)
+2026-04-01T00:52:17.311258Z	   10 Query	INSERT INTO `invoices` VALUES (6,'75-587-6626',1,157.78,74.55,'2019-01-29','2019-02-18','2019-01-03')
+2026-04-01T00:52:17.313605Z	   10 Query	INSERT INTO `invoices` VALUES (7,'68-093-9863',3,133.87,0.00,'2019-09-04','2019-09-24',NULL)
+2026-04-01T00:52:17.315791Z	   10 Query	INSERT INTO `invoices` VALUES (8,'78-145-1093',1,189.12,0.00,'2019-05-20','2019-06-09',NULL)
+2026-04-01T00:52:17.317271Z	   10 Query	INSERT INTO `invoices` VALUES (9,'77-593-0081',5,172.17,0.00,'2019-07-09','2019-07-29',NULL)
+2026-04-01T00:52:17.318607Z	   10 Query	INSERT INTO `invoices` VALUES (10,'48-266-1517',1,159.50,0.00,'2019-06-30','2019-07-20',NULL)
+2026-04-01T00:52:17.320571Z	   10 Query	INSERT INTO `invoices` VALUES (11,'20-848-0181',3,126.15,0.03,'2019-01-07','2019-01-27','2019-01-11')
+2026-04-01T00:52:17.324999Z	   10 Query	INSERT INTO `invoices` VALUES (13,'41-666-1035',5,135.01,87.44,'2019-06-25','2019-07-15','2019-01-26')
+2026-04-01T00:52:17.326263Z	   10 Query	INSERT INTO `invoices` VALUES (15,'55-105-9605',3,167.29,80.31,'2019-11-25','2019-12-15','2019-01-15')
+2026-04-01T00:52:17.327610Z	   10 Query	INSERT INTO `invoices` VALUES (16,'10-451-8824',1,162.02,0.00,'2019-03-30','2019-04-19',NULL)
+2026-04-01T00:52:17.329015Z	   10 Query	INSERT INTO `invoices` VALUES (17,'33-615-4694',3,126.38,68.10,'2019-07-30','2019-08-19','2019-01-15')
+2026-04-01T00:52:17.330254Z	   10 Query	INSERT INTO `invoices` VALUES (18,'52-269-9803',5,180.17,42.77,'2019-05-23','2019-06-12','2019-01-08')
+2026-04-01T00:52:17.331653Z	   10 Query	INSERT INTO `invoices` VALUES (19,'83-559-4105',1,134.47,0.00,'2019-11-23','2019-12-13',NULL)
+2026-04-01T00:52:17.333147Z	   10 Query	CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `amount` decimal(9,2) NOT NULL,
+  `payment_method` tinyint(4) NOT NULL,
+  PRIMARY KEY (`payment_id`),
+  KEY `fk_client_id_idx` (`client_id`),
+  KEY `fk_invoice_id_idx` (`invoice_id`),
+  KEY `fk_payment_payment_method_idx` (`payment_method`),
+  CONSTRAINT `fk_payment_client` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_payment_invoice` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`invoice_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_payment_payment_method` FOREIGN KEY (`payment_method`) REFERENCES `payment_methods` (`payment_method_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.350933Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.351636Z	   10 Query	INSERT INTO `payments` VALUES (1,5,2,'2019-02-12',8.18,1)
+2026-04-01T00:52:17.353219Z	   10 Query	INSERT INTO `payments` VALUES (2,1,6,'2019-01-03',74.55,1)
+2026-04-01T00:52:17.354471Z	   10 Query	INSERT INTO `payments` VALUES (3,3,11,'2019-01-11',0.03,1)
+2026-04-01T00:52:17.355625Z	   10 Query	INSERT INTO `payments` VALUES (4,5,13,'2019-01-26',87.44,1)
+2026-04-01T00:52:17.356999Z	   10 Query	INSERT INTO `payments` VALUES (5,3,15,'2019-01-15',80.31,1)
+2026-04-01T00:52:17.358232Z	   10 Query	INSERT INTO `payments` VALUES (6,3,17,'2019-01-15',68.10,1)
+2026-04-01T00:52:17.359567Z	   10 Query	INSERT INTO `payments` VALUES (7,5,18,'2019-01-08',32.77,1)
+2026-04-01T00:52:17.361008Z	   10 Query	INSERT INTO `payments` VALUES (8,5,18,'2019-01-08',10.00,2)
+2026-04-01T00:52:17.362120Z	   10 Query	DROP DATABASE IF EXISTS `sql_store`
+2026-04-01T00:52:17.381546Z	   10 Query	CREATE DATABASE `sql_store`
+2026-04-01T00:52:17.383183Z	   10 Query	USE `sql_store`
+2026-04-01T00:52:17.383307Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:52:17.383709Z	   10 Query	CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.390043Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.390760Z	   10 Query	INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21)
+2026-04-01T00:52:17.392340Z	   10 Query	INSERT INTO `products` VALUES (2,'Pork - Bacon,back Peameal',49,4.65)
+2026-04-01T00:52:17.394115Z	   10 Query	INSERT INTO `products` VALUES (3,'Lettuce - Romaine, Heart',38,3.35)
+2026-04-01T00:52:17.397641Z	   10 Query	INSERT INTO `products` VALUES (4,'Brocolinni - Gaylan, Chinese',90,4.53)
+2026-04-01T00:52:17.398810Z	   10 Query	INSERT INTO `products` VALUES (5,'Sauce - Ranch Dressing',94,1.63)
+2026-04-01T00:52:17.399876Z	   10 Query	INSERT INTO `products` VALUES (6,'Petit Baguette',14,2.39)
+2026-04-01T00:52:17.400901Z	   10 Query	INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29)
+2026-04-01T00:52:17.401894Z	   10 Query	INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74)
+2026-04-01T00:52:17.402993Z	   10 Query	INSERT INTO `products` VALUES (9,'Longan',67,2.26)
+2026-04-01T00:52:17.404043Z	   10 Query	INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09)
+2026-04-01T00:52:17.405106Z	   10 Query	CREATE TABLE `shippers` (
+  `shipper_id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`shipper_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.414963Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.415610Z	   10 Query	INSERT INTO `shippers` VALUES (1,'Hettinger LLC')
+2026-04-01T00:52:17.417192Z	   10 Query	INSERT INTO `shippers` VALUES (2,'Schinner-Predovic')
+2026-04-01T00:52:17.418921Z	   10 Query	INSERT INTO `shippers` VALUES (3,'Satterfield LLC')
+2026-04-01T00:52:17.420122Z	   10 Query	INSERT INTO `shippers` VALUES (4,'Mraz, Renner and Nolan')
+2026-04-01T00:52:17.421664Z	   10 Query	INSERT INTO `shippers` VALUES (5,'Waters, Mayert and Prohaska')
+2026-04-01T00:52:17.423274Z	   10 Query	CREATE TABLE `customers` (
+  `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `birth_date` date DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` char(2) NOT NULL,
+  `points` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`customer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.429560Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.430173Z	   10 Query	INSERT INTO `customers` VALUES (1,'Babara','MacCaffrey','1986-03-28','781-932-9754','0 Sage Terrace','Waltham','MA',2273)
+2026-04-01T00:52:17.431753Z	   10 Query	INSERT INTO `customers` VALUES (2,'Ines','Brushfield','1986-04-13','804-427-9456','14187 Commercial Trail','Hampton','VA',947)
+2026-04-01T00:52:17.432958Z	   10 Query	INSERT INTO `customers` VALUES (3,'Freddi','Boagey','1985-02-07','719-724-7869','251 Springs Junction','Colorado Springs','CO',2967)
+2026-04-01T00:52:17.433930Z	   10 Query	INSERT INTO `customers` VALUES (4,'Ambur','Roseburgh','1974-04-14','407-231-8017','30 Arapahoe Terrace','Orlando','FL',457)
+2026-04-01T00:52:17.435053Z	   10 Query	INSERT INTO `customers` VALUES (5,'Clemmie','Betchley','1973-11-07',NULL,'5 Spohn Circle','Arlington','TX',3675)
+2026-04-01T00:52:17.436353Z	   10 Query	INSERT INTO `customers` VALUES (6,'Elka','Twiddell','1991-09-04','312-480-8498','7 Manley Drive','Chicago','IL',3073)
+2026-04-01T00:52:17.437587Z	   10 Query	INSERT INTO `customers` VALUES (7,'Ilene','Dowson','1964-08-30','615-641-4759','50 Lillian Crossing','Nashville','TN',1672)
+2026-04-01T00:52:17.438658Z	   10 Query	INSERT INTO `customers` VALUES (8,'Thacher','Naseby','1993-07-17','941-527-3977','538 Mosinee Center','Sarasota','FL',205)
+2026-04-01T00:52:17.439735Z	   10 Query	INSERT INTO `customers` VALUES (9,'Romola','Rumgay','1992-05-23','559-181-3744','3520 Ohio Trail','Visalia','CA',1486)
+2026-04-01T00:52:17.440800Z	   10 Query	INSERT INTO `customers` VALUES (10,'Levy','Mynett','1969-10-13','404-246-3370','68 Lawn Avenue','Atlanta','GA',796)
+2026-04-01T00:52:17.441914Z	   10 Query	CREATE TABLE `order_statuses` (
+  `order_status_id` tinyint(4) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`order_status_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.448011Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.448657Z	   10 Query	INSERT INTO `order_statuses` VALUES (1,'Processed')
+2026-04-01T00:52:17.450375Z	   10 Query	INSERT INTO `order_statuses` VALUES (2,'Shipped')
+2026-04-01T00:52:17.453770Z	   10 Query	INSERT INTO `order_statuses` VALUES (3,'Delivered')
+2026-04-01T00:52:17.454969Z	   10 Query	CREATE TABLE `orders` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `order_date` date NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `comments` varchar(2000) DEFAULT NULL,
+  `shipped_date` date DEFAULT NULL,
+  `shipper_id` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`order_id`),
+  KEY `fk_orders_customers_idx` (`customer_id`),
+  KEY `fk_orders_shippers_idx` (`shipper_id`),
+  KEY `fk_orders_order_statuses_idx` (`status`),
+  CONSTRAINT `fk_orders_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_order_statuses` FOREIGN KEY (`status`) REFERENCES `order_statuses` (`order_status_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_shippers` FOREIGN KEY (`shipper_id`) REFERENCES `shippers` (`shipper_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.472446Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.473114Z	   10 Query	INSERT INTO `orders` VALUES (1,6,'2019-01-30',1,NULL,NULL,NULL)
+2026-04-01T00:52:17.474807Z	   10 Query	INSERT INTO `orders` VALUES (2,7,'2018-08-02',2,NULL,'2018-08-03',4)
+2026-04-01T00:52:17.476309Z	   10 Query	INSERT INTO `orders` VALUES (3,8,'2017-12-01',1,NULL,NULL,NULL)
+2026-04-01T00:52:17.477458Z	   10 Query	INSERT INTO `orders` VALUES (4,2,'2017-01-22',1,NULL,NULL,NULL)
+2026-04-01T00:52:17.478523Z	   10 Query	INSERT INTO `orders` VALUES (5,5,'2017-08-25',2,'','2017-08-26',3)
+2026-04-01T00:52:17.479616Z	   10 Query	INSERT INTO `orders` VALUES (6,10,'2018-11-18',1,'Aliquam erat volutpat. In congue.',NULL,NULL)
+2026-04-01T00:52:17.480778Z	   10 Query	INSERT INTO `orders` VALUES (7,2,'2018-09-22',2,NULL,'2018-09-23',4)
+2026-04-01T00:52:17.481934Z	   10 Query	INSERT INTO `orders` VALUES (8,5,'2018-06-08',1,'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.',NULL,NULL)
+2026-04-01T00:52:17.483104Z	   10 Query	INSERT INTO `orders` VALUES (9,10,'2017-07-05',2,'Nulla mollis molestie lorem. Quisque ut erat.','2017-07-06',1)
+2026-04-01T00:52:17.484277Z	   10 Query	INSERT INTO `orders` VALUES (10,6,'2018-04-22',2,NULL,'2018-04-23',2)
+2026-04-01T00:52:17.485410Z	   10 Query	CREATE TABLE `order_items` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`order_id`,`product_id`),
+  KEY `fk_order_items_products_idx` (`product_id`),
+  CONSTRAINT `fk_order_items_orders` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_order_items_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.499654Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.500333Z	   10 Query	INSERT INTO `order_items` VALUES (1,4,4,3.74)
+2026-04-01T00:52:17.502133Z	   10 Query	INSERT INTO `order_items` VALUES (2,1,2,9.10)
+2026-04-01T00:52:17.506889Z	   10 Query	INSERT INTO `order_items` VALUES (2,4,4,1.66)
+2026-04-01T00:52:17.508123Z	   10 Query	INSERT INTO `order_items` VALUES (2,6,2,2.94)
+2026-04-01T00:52:17.509318Z	   10 Query	INSERT INTO `order_items` VALUES (3,3,10,9.12)
+2026-04-01T00:52:17.510598Z	   10 Query	INSERT INTO `order_items` VALUES (4,3,7,6.99)
+2026-04-01T00:52:17.516063Z	   10 Query	INSERT INTO `order_items` VALUES (4,10,7,6.40)
+2026-04-01T00:52:17.517350Z	   10 Query	INSERT INTO `order_items` VALUES (5,2,3,9.89)
+2026-04-01T00:52:17.518601Z	   10 Query	INSERT INTO `order_items` VALUES (6,1,4,8.65)
+2026-04-01T00:52:17.519825Z	   10 Query	INSERT INTO `order_items` VALUES (6,2,4,3.28)
+2026-04-01T00:52:17.520956Z	   10 Query	INSERT INTO `order_items` VALUES (6,3,4,7.46)
+2026-04-01T00:52:17.522106Z	   10 Query	INSERT INTO `order_items` VALUES (6,5,1,3.45)
+2026-04-01T00:52:17.523225Z	   10 Query	INSERT INTO `order_items` VALUES (7,3,7,9.17)
+2026-04-01T00:52:17.524224Z	   10 Query	INSERT INTO `order_items` VALUES (8,5,2,6.94)
+2026-04-01T00:52:17.525438Z	   10 Query	INSERT INTO `order_items` VALUES (8,8,2,8.59)
+2026-04-01T00:52:17.526534Z	   10 Query	INSERT INTO `order_items` VALUES (9,6,5,7.28)
+2026-04-01T00:52:17.527439Z	   10 Query	INSERT INTO `order_items` VALUES (10,1,10,6.01)
+2026-04-01T00:52:17.528581Z	   10 Query	INSERT INTO `order_items` VALUES (10,9,9,4.28)
+2026-04-01T00:52:17.529725Z	   10 Query	CREATE TABLE `sql_store`.`order_item_notes` (
+  `note_id` INT NOT NULL,
+  `order_Id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `note` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`note_id`))
+2026-04-01T00:52:17.536928Z	   10 Query	INSERT INTO `order_item_notes` (`note_id`, `order_Id`, `product_id`, `note`) VALUES ('1', '1', '2', 'first note')
+2026-04-01T00:52:17.538701Z	   10 Query	INSERT INTO `order_item_notes` (`note_id`, `order_Id`, `product_id`, `note`) VALUES ('2', '1', '2', 'second note')
+2026-04-01T00:52:17.539879Z	   10 Query	DROP DATABASE IF EXISTS `sql_hr`
+2026-04-01T00:52:17.558675Z	   10 Query	CREATE DATABASE `sql_hr`
+2026-04-01T00:52:17.560384Z	   10 Query	USE `sql_hr`
+2026-04-01T00:52:17.560492Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:52:17.560882Z	   10 Query	CREATE TABLE `offices` (
+  `office_id` int(11) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` varchar(50) NOT NULL,
+  PRIMARY KEY (`office_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.568813Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.569465Z	   10 Query	INSERT INTO `offices` VALUES (1,'03 Reinke Trail','Cincinnati','OH')
+2026-04-01T00:52:17.571073Z	   10 Query	INSERT INTO `offices` VALUES (2,'5507 Becker Terrace','New York City','NY')
+2026-04-01T00:52:17.572449Z	   10 Query	INSERT INTO `offices` VALUES (3,'54 Northland Court','Richmond','VA')
+2026-04-01T00:52:17.573503Z	   10 Query	INSERT INTO `offices` VALUES (4,'08 South Crossing','Cincinnati','OH')
+2026-04-01T00:52:17.575370Z	   10 Query	INSERT INTO `offices` VALUES (5,'553 Maple Drive','Minneapolis','MN')
+2026-04-01T00:52:17.576615Z	   10 Query	INSERT INTO `offices` VALUES (6,'23 North Plaza','Aurora','CO')
+2026-04-01T00:52:17.577788Z	   10 Query	INSERT INTO `offices` VALUES (7,'9658 Wayridge Court','Boise','ID')
+2026-04-01T00:52:17.578989Z	   10 Query	INSERT INTO `offices` VALUES (8,'9 Grayhawk Trail','New York City','NY')
+2026-04-01T00:52:17.580400Z	   10 Query	INSERT INTO `offices` VALUES (9,'16862 Westend Hill','Knoxville','TN')
+2026-04-01T00:52:17.581560Z	   10 Query	INSERT INTO `offices` VALUES (10,'4 Bluestem Parkway','Savannah','GA')
+2026-04-01T00:52:17.582602Z	   10 Query	CREATE TABLE `employees` (
+  `employee_id` int(11) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `job_title` varchar(50) NOT NULL,
+  `salary` int(11) NOT NULL,
+  `reports_to` int(11) DEFAULT NULL,
+  `office_id` int(11) NOT NULL,
+  PRIMARY KEY (`employee_id`),
+  KEY `fk_employees_offices_idx` (`office_id`),
+  KEY `fk_employees_employees_idx` (`reports_to`),
+  CONSTRAINT `fk_employees_managers` FOREIGN KEY (`reports_to`) REFERENCES `employees` (`employee_id`),
+  CONSTRAINT `fk_employees_offices` FOREIGN KEY (`office_id`) REFERENCES `offices` (`office_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.602449Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.603102Z	   10 Query	INSERT INTO `employees` VALUES (37270,'Yovonnda','Magrannell','Executive Secretary',63996,NULL,10)
+2026-04-01T00:52:17.604722Z	   10 Query	INSERT INTO `employees` VALUES (33391,'D\'arcy','Nortunen','Account Executive',62871,37270,1)
+2026-04-01T00:52:17.606122Z	   10 Query	INSERT INTO `employees` VALUES (37851,'Sayer','Matterson','Statistician III',98926,37270,1)
+2026-04-01T00:52:17.607215Z	   10 Query	INSERT INTO `employees` VALUES (40448,'Mindy','Crissil','Staff Scientist',94860,37270,1)
+2026-04-01T00:52:17.608565Z	   10 Query	INSERT INTO `employees` VALUES (56274,'Keriann','Alloisi','VP Marketing',110150,37270,1)
+2026-04-01T00:52:17.609738Z	   10 Query	INSERT INTO `employees` VALUES (63196,'Alaster','Scutchin','Assistant Professor',32179,37270,2)
+2026-04-01T00:52:17.611734Z	   10 Query	INSERT INTO `employees` VALUES (67009,'North','de Clerc','VP Product Management',114257,37270,2)
+2026-04-01T00:52:17.612828Z	   10 Query	INSERT INTO `employees` VALUES (67370,'Elladine','Rising','Social Worker',96767,37270,2)
+2026-04-01T00:52:17.613919Z	   10 Query	INSERT INTO `employees` VALUES (68249,'Nisse','Voysey','Financial Advisor',52832,37270,2)
+2026-04-01T00:52:17.615113Z	   10 Query	INSERT INTO `employees` VALUES (72540,'Guthrey','Iacopetti','Office Assistant I',117690,37270,3)
+2026-04-01T00:52:17.616184Z	   10 Query	INSERT INTO `employees` VALUES (72913,'Kass','Hefferan','Computer Systems Analyst IV',96401,37270,3)
+2026-04-01T00:52:17.617224Z	   10 Query	INSERT INTO `employees` VALUES (75900,'Virge','Goodrum','Information Systems Manager',54578,37270,3)
+2026-04-01T00:52:17.618802Z	   10 Query	INSERT INTO `employees` VALUES (76196,'Mirilla','Janowski','Cost Accountant',119241,37270,3)
+2026-04-01T00:52:17.619924Z	   10 Query	INSERT INTO `employees` VALUES (80529,'Lynde','Aronson','Junior Executive',77182,37270,4)
+2026-04-01T00:52:17.621181Z	   10 Query	INSERT INTO `employees` VALUES (80679,'Mildrid','Sokale','Geologist II',67987,37270,4)
+2026-04-01T00:52:17.622910Z	   10 Query	INSERT INTO `employees` VALUES (84791,'Hazel','Tarbert','General Manager',93760,37270,4)
+2026-04-01T00:52:17.624492Z	   10 Query	INSERT INTO `employees` VALUES (95213,'Cole','Kesterton','Pharmacist',86119,37270,4)
+2026-04-01T00:52:17.625927Z	   10 Query	INSERT INTO `employees` VALUES (96513,'Theresa','Binney','Food Chemist',47354,37270,5)
+2026-04-01T00:52:17.627444Z	   10 Query	INSERT INTO `employees` VALUES (98374,'Estrellita','Daleman','Staff Accountant IV',70187,37270,5)
+2026-04-01T00:52:17.628607Z	   10 Query	INSERT INTO `employees` VALUES (115357,'Ivy','Fearey','Structural Engineer',92710,37270,5)
+2026-04-01T00:52:17.630249Z	   10 Query	DROP DATABASE IF EXISTS `sql_inventory`
+2026-04-01T00:52:17.634842Z	   10 Query	CREATE DATABASE `sql_inventory`
+2026-04-01T00:52:17.636632Z	   10 Query	USE `sql_inventory`
+2026-04-01T00:52:17.636748Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:52:17.637214Z	   10 Query	CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:17.643301Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:17.643943Z	   10 Query	INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21)
+2026-04-01T00:52:17.645576Z	   10 Query	INSERT INTO `products` VALUES (2,'Pork - Bacon,back Peameal',49,4.65)
+2026-04-01T00:52:17.646997Z	   10 Query	INSERT INTO `products` VALUES (3,'Lettuce - Romaine, Heart',38,3.35)
+2026-04-01T00:52:17.648508Z	   10 Query	INSERT INTO `products` VALUES (4,'Brocolinni - Gaylan, Chinese',90,4.53)
+2026-04-01T00:52:17.649797Z	   10 Query	INSERT INTO `products` VALUES (5,'Sauce - Ranch Dressing',94,1.63)
+2026-04-01T00:52:17.651010Z	   10 Query	INSERT INTO `products` VALUES (6,'Petit Baguette',14,2.39)
+2026-04-01T00:52:17.652242Z	   10 Query	INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29)
+2026-04-01T00:52:17.653588Z	   10 Query	INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74)
+2026-04-01T00:52:17.654839Z	   10 Query	INSERT INTO `products` VALUES (9,'Longan',67,2.26)
+2026-04-01T00:52:17.655904Z	   10 Query	INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09)
+2026-04-01T00:52:17.656900Z	   10 Query	set global general_log = 'on'
+2026-04-01T00:52:17.657245Z	   10 Query	show variables like 'general_log_file'
+2026-04-01T00:52:17.663367Z	   10 Query	select*from sql_invoicing.clients
+LIMIT 0, 1000
+2026-04-01T00:52:17.667644Z	    9 Query	SHOW INDEX FROM `sql_invoicing`.`clients`
+2026-04-01T00:52:17.671000Z	   10 Query	insert into sql_invoicing.clients
+(client_id, name, address, city, state, phone)
+values
+(6, 'TestClient', '123 Test Street', 'TestCity', 'TC', '999-999-999')
+2026-04-01T00:52:17.675141Z	   10 Query	update sql_invoicing.clients
+set city = 'UpdatedCity'
+where name = 'TestClient'
+2026-04-01T00:52:34.847843Z	   10 Query	DROP DATABASE IF EXISTS `sql_invoicing`
+2026-04-01T00:52:34.867690Z	   10 Query	CREATE DATABASE `sql_invoicing`
+2026-04-01T00:52:34.870827Z	   10 Query	USE `sql_invoicing`
+2026-04-01T00:52:34.870972Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:52:34.871505Z	   10 Query	SET NAMES utf8
+2026-04-01T00:52:34.871586Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:34.872110Z	   10 Query	SET character_set_client = utf8mb4
+2026-04-01T00:52:34.872628Z	   10 Query	CREATE TABLE `payment_methods` (
+  `payment_method_id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`payment_method_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:34.882728Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:34.883596Z	   10 Query	INSERT INTO `payment_methods` VALUES (1,'Credit Card')
+2026-04-01T00:52:34.886398Z	   10 Query	INSERT INTO `payment_methods` VALUES (2,'Cash')
+2026-04-01T00:52:34.887710Z	   10 Query	INSERT INTO `payment_methods` VALUES (3,'PayPal')
+2026-04-01T00:52:34.888971Z	   10 Query	INSERT INTO `payment_methods` VALUES (4,'Wire Transfer')
+2026-04-01T00:52:34.891077Z	   10 Query	CREATE TABLE `clients` (
+  `client_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` char(2) NOT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:34.898784Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:34.899598Z	   10 Query	INSERT INTO `clients` VALUES (1,'Vinte','3 Nevada Parkway','Syracuse','NY','315-252-7305')
+2026-04-01T00:52:34.902923Z	   10 Query	INSERT INTO `clients` VALUES (2,'Myworks','34267 Glendale Parkway','Huntington','WV','304-659-1170')
+2026-04-01T00:52:34.904359Z	   10 Query	INSERT INTO `clients` VALUES (3,'Yadel','096 Pawling Parkway','San Francisco','CA','415-144-6037')
+2026-04-01T00:52:34.905829Z	   10 Query	INSERT INTO `clients` VALUES (4,'Kwideo','81674 Westerfield Circle','Waco','TX','254-750-0784')
+2026-04-01T00:52:34.907181Z	   10 Query	INSERT INTO `clients` VALUES (5,'Topiclounge','0863 Farmco Road','Portland','OR','971-888-9129')
+2026-04-01T00:52:34.908386Z	   10 Query	CREATE TABLE `invoices` (
+  `invoice_id` int(11) NOT NULL,
+  `number` varchar(50) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `invoice_total` decimal(9,2) NOT NULL,
+  `payment_total` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `invoice_date` date NOT NULL,
+  `due_date` date NOT NULL,
+  `payment_date` date DEFAULT NULL,
+  PRIMARY KEY (`invoice_id`),
+  KEY `FK_client_id` (`client_id`),
+  CONSTRAINT `FK_client_id` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:34.924336Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:34.925043Z	   10 Query	INSERT INTO `invoices` VALUES (1,'91-953-3396',2,101.79,0.00,'2019-03-09','2019-03-29',NULL)
+2026-04-01T00:52:34.926916Z	   10 Query	INSERT INTO `invoices` VALUES (2,'03-898-6735',5,175.32,8.18,'2019-06-11','2019-07-01','2019-02-12')
+2026-04-01T00:52:34.928378Z	   10 Query	INSERT INTO `invoices` VALUES (3,'20-228-0335',5,147.99,0.00,'2019-07-31','2019-08-20',NULL)
+2026-04-01T00:52:34.929745Z	   10 Query	INSERT INTO `invoices` VALUES (4,'56-934-0748',3,152.21,0.00,'2019-03-08','2019-03-28',NULL)
+2026-04-01T00:52:34.931070Z	   10 Query	INSERT INTO `invoices` VALUES (5,'87-052-3121',5,169.36,0.00,'2019-07-18','2019-08-07',NULL)
+2026-04-01T00:52:34.932372Z	   10 Query	INSERT INTO `invoices` VALUES (6,'75-587-6626',1,157.78,74.55,'2019-01-29','2019-02-18','2019-01-03')
+2026-04-01T00:52:34.933747Z	   10 Query	INSERT INTO `invoices` VALUES (7,'68-093-9863',3,133.87,0.00,'2019-09-04','2019-09-24',NULL)
+2026-04-01T00:52:34.935636Z	   10 Query	INSERT INTO `invoices` VALUES (8,'78-145-1093',1,189.12,0.00,'2019-05-20','2019-06-09',NULL)
+2026-04-01T00:52:34.936780Z	   10 Query	INSERT INTO `invoices` VALUES (9,'77-593-0081',5,172.17,0.00,'2019-07-09','2019-07-29',NULL)
+2026-04-01T00:52:34.937900Z	   10 Query	INSERT INTO `invoices` VALUES (10,'48-266-1517',1,159.50,0.00,'2019-06-30','2019-07-20',NULL)
+2026-04-01T00:52:34.939156Z	   10 Query	INSERT INTO `invoices` VALUES (11,'20-848-0181',3,126.15,0.03,'2019-01-07','2019-01-27','2019-01-11')
+2026-04-01T00:52:34.940282Z	   10 Query	INSERT INTO `invoices` VALUES (13,'41-666-1035',5,135.01,87.44,'2019-06-25','2019-07-15','2019-01-26')
+2026-04-01T00:52:34.941501Z	   10 Query	INSERT INTO `invoices` VALUES (15,'55-105-9605',3,167.29,80.31,'2019-11-25','2019-12-15','2019-01-15')
+2026-04-01T00:52:34.942549Z	   10 Query	INSERT INTO `invoices` VALUES (16,'10-451-8824',1,162.02,0.00,'2019-03-30','2019-04-19',NULL)
+2026-04-01T00:52:34.943612Z	   10 Query	INSERT INTO `invoices` VALUES (17,'33-615-4694',3,126.38,68.10,'2019-07-30','2019-08-19','2019-01-15')
+2026-04-01T00:52:34.945088Z	   10 Query	INSERT INTO `invoices` VALUES (18,'52-269-9803',5,180.17,42.77,'2019-05-23','2019-06-12','2019-01-08')
+2026-04-01T00:52:34.946436Z	   10 Query	INSERT INTO `invoices` VALUES (19,'83-559-4105',1,134.47,0.00,'2019-11-23','2019-12-13',NULL)
+2026-04-01T00:52:34.947985Z	   10 Query	CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `amount` decimal(9,2) NOT NULL,
+  `payment_method` tinyint(4) NOT NULL,
+  PRIMARY KEY (`payment_id`),
+  KEY `fk_client_id_idx` (`client_id`),
+  KEY `fk_invoice_id_idx` (`invoice_id`),
+  KEY `fk_payment_payment_method_idx` (`payment_method`),
+  CONSTRAINT `fk_payment_client` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_payment_invoice` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`invoice_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_payment_payment_method` FOREIGN KEY (`payment_method`) REFERENCES `payment_methods` (`payment_method_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:34.968527Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:34.969226Z	   10 Query	INSERT INTO `payments` VALUES (1,5,2,'2019-02-12',8.18,1)
+2026-04-01T00:52:34.970926Z	   10 Query	INSERT INTO `payments` VALUES (2,1,6,'2019-01-03',74.55,1)
+2026-04-01T00:52:34.972408Z	   10 Query	INSERT INTO `payments` VALUES (3,3,11,'2019-01-11',0.03,1)
+2026-04-01T00:52:34.973746Z	   10 Query	INSERT INTO `payments` VALUES (4,5,13,'2019-01-26',87.44,1)
+2026-04-01T00:52:34.975101Z	   10 Query	INSERT INTO `payments` VALUES (5,3,15,'2019-01-15',80.31,1)
+2026-04-01T00:52:34.976438Z	   10 Query	INSERT INTO `payments` VALUES (6,3,17,'2019-01-15',68.10,1)
+2026-04-01T00:52:34.977962Z	   10 Query	INSERT INTO `payments` VALUES (7,5,18,'2019-01-08',32.77,1)
+2026-04-01T00:52:34.979344Z	   10 Query	INSERT INTO `payments` VALUES (8,5,18,'2019-01-08',10.00,2)
+2026-04-01T00:52:34.980663Z	   10 Query	DROP DATABASE IF EXISTS `sql_store`
+2026-04-01T00:52:35.000204Z	   10 Query	CREATE DATABASE `sql_store`
+2026-04-01T00:52:35.001828Z	   10 Query	USE `sql_store`
+2026-04-01T00:52:35.001967Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:52:35.002433Z	   10 Query	CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:35.013293Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:35.013958Z	   10 Query	INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21)
+2026-04-01T00:52:35.015512Z	   10 Query	INSERT INTO `products` VALUES (2,'Pork - Bacon,back Peameal',49,4.65)
+2026-04-01T00:52:35.016760Z	   10 Query	INSERT INTO `products` VALUES (3,'Lettuce - Romaine, Heart',38,3.35)
+2026-04-01T00:52:35.019801Z	   10 Query	INSERT INTO `products` VALUES (4,'Brocolinni - Gaylan, Chinese',90,4.53)
+2026-04-01T00:52:35.022679Z	   10 Query	INSERT INTO `products` VALUES (5,'Sauce - Ranch Dressing',94,1.63)
+2026-04-01T00:52:35.028004Z	   10 Query	INSERT INTO `products` VALUES (6,'Petit Baguette',14,2.39)
+2026-04-01T00:52:35.029222Z	   10 Query	INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29)
+2026-04-01T00:52:35.030345Z	   10 Query	INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74)
+2026-04-01T00:52:35.031378Z	   10 Query	INSERT INTO `products` VALUES (9,'Longan',67,2.26)
+2026-04-01T00:52:35.032591Z	   10 Query	INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09)
+2026-04-01T00:52:35.037037Z	   10 Query	CREATE TABLE `shippers` (
+  `shipper_id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`shipper_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:35.044939Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:35.045577Z	   10 Query	INSERT INTO `shippers` VALUES (1,'Hettinger LLC')
+2026-04-01T00:52:35.047120Z	   10 Query	INSERT INTO `shippers` VALUES (2,'Schinner-Predovic')
+2026-04-01T00:52:35.053269Z	   10 Query	INSERT INTO `shippers` VALUES (3,'Satterfield LLC')
+2026-04-01T00:52:35.056246Z	   10 Query	INSERT INTO `shippers` VALUES (4,'Mraz, Renner and Nolan')
+2026-04-01T00:52:35.057415Z	   10 Query	INSERT INTO `shippers` VALUES (5,'Waters, Mayert and Prohaska')
+2026-04-01T00:52:35.058603Z	   10 Query	CREATE TABLE `customers` (
+  `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `birth_date` date DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` char(2) NOT NULL,
+  `points` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`customer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:35.068806Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:35.069473Z	   10 Query	INSERT INTO `customers` VALUES (1,'Babara','MacCaffrey','1986-03-28','781-932-9754','0 Sage Terrace','Waltham','MA',2273)
+2026-04-01T00:52:35.077396Z	   10 Query	INSERT INTO `customers` VALUES (2,'Ines','Brushfield','1986-04-13','804-427-9456','14187 Commercial Trail','Hampton','VA',947)
+2026-04-01T00:52:35.078896Z	   10 Query	INSERT INTO `customers` VALUES (3,'Freddi','Boagey','1985-02-07','719-724-7869','251 Springs Junction','Colorado Springs','CO',2967)
+2026-04-01T00:52:35.079930Z	   10 Query	INSERT INTO `customers` VALUES (4,'Ambur','Roseburgh','1974-04-14','407-231-8017','30 Arapahoe Terrace','Orlando','FL',457)
+2026-04-01T00:52:35.080977Z	   10 Query	INSERT INTO `customers` VALUES (5,'Clemmie','Betchley','1973-11-07',NULL,'5 Spohn Circle','Arlington','TX',3675)
+2026-04-01T00:52:35.086690Z	   10 Query	INSERT INTO `customers` VALUES (6,'Elka','Twiddell','1991-09-04','312-480-8498','7 Manley Drive','Chicago','IL',3073)
+2026-04-01T00:52:35.088283Z	   10 Query	INSERT INTO `customers` VALUES (7,'Ilene','Dowson','1964-08-30','615-641-4759','50 Lillian Crossing','Nashville','TN',1672)
+2026-04-01T00:52:35.089360Z	   10 Query	INSERT INTO `customers` VALUES (8,'Thacher','Naseby','1993-07-17','941-527-3977','538 Mosinee Center','Sarasota','FL',205)
+2026-04-01T00:52:35.090372Z	   10 Query	INSERT INTO `customers` VALUES (9,'Romola','Rumgay','1992-05-23','559-181-3744','3520 Ohio Trail','Visalia','CA',1486)
+2026-04-01T00:52:35.095579Z	   10 Query	INSERT INTO `customers` VALUES (10,'Levy','Mynett','1969-10-13','404-246-3370','68 Lawn Avenue','Atlanta','GA',796)
+2026-04-01T00:52:35.100360Z	   10 Query	CREATE TABLE `order_statuses` (
+  `order_status_id` tinyint(4) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`order_status_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:35.109897Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:35.110988Z	   10 Query	INSERT INTO `order_statuses` VALUES (1,'Processed')
+2026-04-01T00:52:35.118675Z	   10 Query	INSERT INTO `order_statuses` VALUES (2,'Shipped')
+2026-04-01T00:52:35.124527Z	   10 Query	INSERT INTO `order_statuses` VALUES (3,'Delivered')
+2026-04-01T00:52:35.125797Z	   10 Query	CREATE TABLE `orders` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `order_date` date NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `comments` varchar(2000) DEFAULT NULL,
+  `shipped_date` date DEFAULT NULL,
+  `shipper_id` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`order_id`),
+  KEY `fk_orders_customers_idx` (`customer_id`),
+  KEY `fk_orders_shippers_idx` (`shipper_id`),
+  KEY `fk_orders_order_statuses_idx` (`status`),
+  CONSTRAINT `fk_orders_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_order_statuses` FOREIGN KEY (`status`) REFERENCES `order_statuses` (`order_status_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_shippers` FOREIGN KEY (`shipper_id`) REFERENCES `shippers` (`shipper_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:35.142648Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:35.143586Z	   10 Query	INSERT INTO `orders` VALUES (1,6,'2019-01-30',1,NULL,NULL,NULL)
+2026-04-01T00:52:35.152032Z	   10 Query	INSERT INTO `orders` VALUES (2,7,'2018-08-02',2,NULL,'2018-08-03',4)
+2026-04-01T00:52:35.157133Z	   10 Query	INSERT INTO `orders` VALUES (3,8,'2017-12-01',1,NULL,NULL,NULL)
+2026-04-01T00:52:35.162952Z	   10 Query	INSERT INTO `orders` VALUES (4,2,'2017-01-22',1,NULL,NULL,NULL)
+2026-04-01T00:52:35.164102Z	   10 Query	INSERT INTO `orders` VALUES (5,5,'2017-08-25',2,'','2017-08-26',3)
+2026-04-01T00:52:35.169305Z	   10 Query	INSERT INTO `orders` VALUES (6,10,'2018-11-18',1,'Aliquam erat volutpat. In congue.',NULL,NULL)
+2026-04-01T00:52:35.173834Z	   10 Query	INSERT INTO `orders` VALUES (7,2,'2018-09-22',2,NULL,'2018-09-23',4)
+2026-04-01T00:52:35.175200Z	   10 Query	INSERT INTO `orders` VALUES (8,5,'2018-06-08',1,'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.',NULL,NULL)
+2026-04-01T00:52:35.176456Z	   10 Query	INSERT INTO `orders` VALUES (9,10,'2017-07-05',2,'Nulla mollis molestie lorem. Quisque ut erat.','2017-07-06',1)
+2026-04-01T00:52:35.177540Z	   10 Query	INSERT INTO `orders` VALUES (10,6,'2018-04-22',2,NULL,'2018-04-23',2)
+2026-04-01T00:52:35.183461Z	   10 Query	CREATE TABLE `order_items` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`order_id`,`product_id`),
+  KEY `fk_order_items_products_idx` (`product_id`),
+  CONSTRAINT `fk_order_items_orders` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_order_items_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:35.201395Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:35.202141Z	   10 Query	INSERT INTO `order_items` VALUES (1,4,4,3.74)
+2026-04-01T00:52:35.210211Z	   10 Query	INSERT INTO `order_items` VALUES (2,1,2,9.10)
+2026-04-01T00:52:35.211476Z	   10 Query	INSERT INTO `order_items` VALUES (2,4,4,1.66)
+2026-04-01T00:52:35.212758Z	   10 Query	INSERT INTO `order_items` VALUES (2,6,2,2.94)
+2026-04-01T00:52:35.213731Z	   10 Query	INSERT INTO `order_items` VALUES (3,3,10,9.12)
+2026-04-01T00:52:35.215056Z	   10 Query	INSERT INTO `order_items` VALUES (4,3,7,6.99)
+2026-04-01T00:52:35.216400Z	   10 Query	INSERT INTO `order_items` VALUES (4,10,7,6.40)
+2026-04-01T00:52:35.217685Z	   10 Query	INSERT INTO `order_items` VALUES (5,2,3,9.89)
+2026-04-01T00:52:35.218888Z	   10 Query	INSERT INTO `order_items` VALUES (6,1,4,8.65)
+2026-04-01T00:52:35.219965Z	   10 Query	INSERT INTO `order_items` VALUES (6,2,4,3.28)
+2026-04-01T00:52:35.221101Z	   10 Query	INSERT INTO `order_items` VALUES (6,3,4,7.46)
+2026-04-01T00:52:35.226881Z	   10 Query	INSERT INTO `order_items` VALUES (6,5,1,3.45)
+2026-04-01T00:52:35.228347Z	   10 Query	INSERT INTO `order_items` VALUES (7,3,7,9.17)
+2026-04-01T00:52:35.229513Z	   10 Query	INSERT INTO `order_items` VALUES (8,5,2,6.94)
+2026-04-01T00:52:35.230897Z	   10 Query	INSERT INTO `order_items` VALUES (8,8,2,8.59)
+2026-04-01T00:52:35.233193Z	   10 Query	INSERT INTO `order_items` VALUES (9,6,5,7.28)
+2026-04-01T00:52:35.236347Z	   10 Query	INSERT INTO `order_items` VALUES (10,1,10,6.01)
+2026-04-01T00:52:35.237659Z	   10 Query	INSERT INTO `order_items` VALUES (10,9,9,4.28)
+2026-04-01T00:52:35.238950Z	   10 Query	CREATE TABLE `sql_store`.`order_item_notes` (
+  `note_id` INT NOT NULL,
+  `order_Id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `note` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`note_id`))
+2026-04-01T00:52:35.249453Z	   10 Query	INSERT INTO `order_item_notes` (`note_id`, `order_Id`, `product_id`, `note`) VALUES ('1', '1', '2', 'first note')
+2026-04-01T00:52:35.251310Z	   10 Query	INSERT INTO `order_item_notes` (`note_id`, `order_Id`, `product_id`, `note`) VALUES ('2', '1', '2', 'second note')
+2026-04-01T00:52:35.252568Z	   10 Query	DROP DATABASE IF EXISTS `sql_hr`
+2026-04-01T00:52:35.261459Z	   10 Query	CREATE DATABASE `sql_hr`
+2026-04-01T00:52:35.263108Z	   10 Query	USE `sql_hr`
+2026-04-01T00:52:35.263240Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:52:35.263659Z	   10 Query	CREATE TABLE `offices` (
+  `office_id` int(11) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` varchar(50) NOT NULL,
+  PRIMARY KEY (`office_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:35.271422Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:35.272100Z	   10 Query	INSERT INTO `offices` VALUES (1,'03 Reinke Trail','Cincinnati','OH')
+2026-04-01T00:52:35.278192Z	   10 Query	INSERT INTO `offices` VALUES (2,'5507 Becker Terrace','New York City','NY')
+2026-04-01T00:52:35.280119Z	   10 Query	INSERT INTO `offices` VALUES (3,'54 Northland Court','Richmond','VA')
+2026-04-01T00:52:35.281720Z	   10 Query	INSERT INTO `offices` VALUES (4,'08 South Crossing','Cincinnati','OH')
+2026-04-01T00:52:35.282834Z	   10 Query	INSERT INTO `offices` VALUES (5,'553 Maple Drive','Minneapolis','MN')
+2026-04-01T00:52:35.287843Z	   10 Query	INSERT INTO `offices` VALUES (6,'23 North Plaza','Aurora','CO')
+2026-04-01T00:52:35.288883Z	   10 Query	INSERT INTO `offices` VALUES (7,'9658 Wayridge Court','Boise','ID')
+2026-04-01T00:52:35.290105Z	   10 Query	INSERT INTO `offices` VALUES (8,'9 Grayhawk Trail','New York City','NY')
+2026-04-01T00:52:35.291336Z	   10 Query	INSERT INTO `offices` VALUES (9,'16862 Westend Hill','Knoxville','TN')
+2026-04-01T00:52:35.292453Z	   10 Query	INSERT INTO `offices` VALUES (10,'4 Bluestem Parkway','Savannah','GA')
+2026-04-01T00:52:35.296344Z	   10 Query	CREATE TABLE `employees` (
+  `employee_id` int(11) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `job_title` varchar(50) NOT NULL,
+  `salary` int(11) NOT NULL,
+  `reports_to` int(11) DEFAULT NULL,
+  `office_id` int(11) NOT NULL,
+  PRIMARY KEY (`employee_id`),
+  KEY `fk_employees_offices_idx` (`office_id`),
+  KEY `fk_employees_employees_idx` (`reports_to`),
+  CONSTRAINT `fk_employees_managers` FOREIGN KEY (`reports_to`) REFERENCES `employees` (`employee_id`),
+  CONSTRAINT `fk_employees_offices` FOREIGN KEY (`office_id`) REFERENCES `offices` (`office_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:35.308074Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:35.308795Z	   10 Query	INSERT INTO `employees` VALUES (37270,'Yovonnda','Magrannell','Executive Secretary',63996,NULL,10)
+2026-04-01T00:52:35.310317Z	   10 Query	INSERT INTO `employees` VALUES (33391,'D\'arcy','Nortunen','Account Executive',62871,37270,1)
+2026-04-01T00:52:35.317280Z	   10 Query	INSERT INTO `employees` VALUES (37851,'Sayer','Matterson','Statistician III',98926,37270,1)
+2026-04-01T00:52:35.320532Z	   10 Query	INSERT INTO `employees` VALUES (40448,'Mindy','Crissil','Staff Scientist',94860,37270,1)
+2026-04-01T00:52:35.321942Z	   10 Query	INSERT INTO `employees` VALUES (56274,'Keriann','Alloisi','VP Marketing',110150,37270,1)
+2026-04-01T00:52:35.324631Z	   10 Query	INSERT INTO `employees` VALUES (63196,'Alaster','Scutchin','Assistant Professor',32179,37270,2)
+2026-04-01T00:52:35.325851Z	   10 Query	INSERT INTO `employees` VALUES (67009,'North','de Clerc','VP Product Management',114257,37270,2)
+2026-04-01T00:52:35.327819Z	   10 Query	INSERT INTO `employees` VALUES (67370,'Elladine','Rising','Social Worker',96767,37270,2)
+2026-04-01T00:52:35.328890Z	   10 Query	INSERT INTO `employees` VALUES (68249,'Nisse','Voysey','Financial Advisor',52832,37270,2)
+2026-04-01T00:52:35.329984Z	   10 Query	INSERT INTO `employees` VALUES (72540,'Guthrey','Iacopetti','Office Assistant I',117690,37270,3)
+2026-04-01T00:52:35.335308Z	   10 Query	INSERT INTO `employees` VALUES (72913,'Kass','Hefferan','Computer Systems Analyst IV',96401,37270,3)
+2026-04-01T00:52:35.336764Z	   10 Query	INSERT INTO `employees` VALUES (75900,'Virge','Goodrum','Information Systems Manager',54578,37270,3)
+2026-04-01T00:52:35.338014Z	   10 Query	INSERT INTO `employees` VALUES (76196,'Mirilla','Janowski','Cost Accountant',119241,37270,3)
+2026-04-01T00:52:35.339090Z	   10 Query	INSERT INTO `employees` VALUES (80529,'Lynde','Aronson','Junior Executive',77182,37270,4)
+2026-04-01T00:52:35.344409Z	   10 Query	INSERT INTO `employees` VALUES (80679,'Mildrid','Sokale','Geologist II',67987,37270,4)
+2026-04-01T00:52:35.345764Z	   10 Query	INSERT INTO `employees` VALUES (84791,'Hazel','Tarbert','General Manager',93760,37270,4)
+2026-04-01T00:52:35.347039Z	   10 Query	INSERT INTO `employees` VALUES (95213,'Cole','Kesterton','Pharmacist',86119,37270,4)
+2026-04-01T00:52:35.348220Z	   10 Query	INSERT INTO `employees` VALUES (96513,'Theresa','Binney','Food Chemist',47354,37270,5)
+2026-04-01T00:52:35.351488Z	   10 Query	INSERT INTO `employees` VALUES (98374,'Estrellita','Daleman','Staff Accountant IV',70187,37270,5)
+2026-04-01T00:52:35.352764Z	   10 Query	INSERT INTO `employees` VALUES (115357,'Ivy','Fearey','Structural Engineer',92710,37270,5)
+2026-04-01T00:52:35.355663Z	   10 Query	DROP DATABASE IF EXISTS `sql_inventory`
+2026-04-01T00:52:35.363896Z	   10 Query	CREATE DATABASE `sql_inventory`
+2026-04-01T00:52:35.367941Z	   10 Query	USE `sql_inventory`
+2026-04-01T00:52:35.368090Z	   10 Query	SELECT DATABASE()
+2026-04-01T00:52:35.368585Z	   10 Query	CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `quantity_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+2026-04-01T00:52:35.380792Z	   10 Query	SHOW WARNINGS
+2026-04-01T00:52:35.381495Z	   10 Query	INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21)
+2026-04-01T00:52:35.388287Z	   10 Query	INSERT INTO `products` VALUES (2,'Pork - Bacon,back Peameal',49,4.65)
+2026-04-01T00:52:35.393003Z	   10 Query	INSERT INTO `products` VALUES (3,'Lettuce - Romaine, Heart',38,3.35)
+2026-04-01T00:52:35.394200Z	   10 Query	INSERT INTO `products` VALUES (4,'Brocolinni - Gaylan, Chinese',90,4.53)
+2026-04-01T00:52:35.395238Z	   10 Query	INSERT INTO `products` VALUES (5,'Sauce - Ranch Dressing',94,1.63)
+2026-04-01T00:52:35.396350Z	   10 Query	INSERT INTO `products` VALUES (6,'Petit Baguette',14,2.39)
+2026-04-01T00:52:35.398545Z	   10 Query	INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29)
+2026-04-01T00:52:35.399559Z	   10 Query	INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74)
+2026-04-01T00:52:35.406040Z	   10 Query	INSERT INTO `products` VALUES (9,'Longan',67,2.26)
+2026-04-01T00:52:35.413053Z	   10 Query	INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09)
+2026-04-01T00:52:35.418693Z	   10 Query	set global general_log = 'on'
+2026-04-01T00:52:35.419074Z	   10 Query	show variables like 'general_log_file'
+2026-04-01T00:52:35.424666Z	   10 Query	select*from sql_invoicing.clients
+LIMIT 0, 1000
+2026-04-01T00:52:35.427930Z	    9 Query	SHOW INDEX FROM `sql_invoicing`.`clients`
+2026-04-01T00:52:35.430848Z	   10 Query	insert into sql_invoicing.clients
+(client_id, name, address, city, state, phone)
+values
+(6, 'TestClient', '123 Test Street', 'TestCity', 'TC', '999-999-999')
+2026-04-01T00:52:35.432220Z	   10 Query	update sql_invoicing.clients
+set city = 'UpdatedCity'
+where name = 'TestClient'
+2026-04-01T00:57:32.925214Z	   10 Quit	
+2026-04-01T00:57:32.925341Z	    9 Quit	
+2026-04-01T01:45:04.818212Z	   11 Connect	root@localhost on  using SSL/TLS
+2026-04-01T01:45:04.818364Z	   11 Connect	Access denied for user 'root'@'localhost' (using password: NO)
+2026-04-01T01:45:09.327841Z	   12 Connect	root@localhost on  using SSL/TLS
+2026-04-01T01:45:09.330238Z	   12 Query	set autocommit=1
+2026-04-01T01:45:09.330656Z	   12 Query	SELECT current_user()
+2026-04-01T01:45:09.330801Z	   12 Query	SET CHARACTER SET utf8
+2026-04-01T01:45:09.330878Z	   12 Query	SET NAMES utf8
+2026-04-01T01:45:09.330941Z	   12 Query	SHOW SESSION VARIABLES LIKE 'sql_mode'
+2026-04-01T01:45:09.332208Z	   12 Query	SELECT CONNECTION_ID()
+2026-04-01T01:45:09.332278Z	   12 Query	show character set where charset = 'utf8mb4'
+2026-04-01T01:45:09.332618Z	   12 Query	SET NAMES 'utf8mb4'
+2026-04-01T01:45:09.332732Z	   12 Query	SHOW SESSION STATUS LIKE 'Ssl_cipher'
+2026-04-01T01:45:09.333196Z	   12 Query	set autocommit=1
+2026-04-01T01:45:09.358780Z	   13 Connect	root@localhost on  using SSL/TLS
+2026-04-01T01:45:09.359109Z	   13 Query	set autocommit=1
+2026-04-01T01:45:09.359252Z	   13 Query	SELECT current_user()
+2026-04-01T01:45:09.359482Z	   13 Query	SET CHARACTER SET utf8
+2026-04-01T01:45:09.359740Z	   13 Query	SET NAMES utf8
+2026-04-01T01:45:09.359961Z	   13 Query	SELECT CONNECTION_ID()
+2026-04-01T01:45:09.360271Z	   13 Query	show character set where charset = 'utf8mb4'
+2026-04-01T01:45:09.360695Z	   13 Query	SET NAMES 'utf8mb4'
+2026-04-01T01:45:09.360937Z	   13 Query	SHOW SESSION STATUS LIKE 'Ssl_cipher'
+2026-04-01T01:45:09.361637Z	   13 Query	set autocommit=1
+2026-04-01T01:45:09.361889Z	   13 Query	SHOW SESSION VARIABLES LIKE 'sql_mode'
+2026-04-01T01:45:09.363132Z	   13 Query	SHOW SESSION VARIABLES LIKE 'version_comment'
+2026-04-01T01:45:09.363733Z	   13 Query	SHOW SESSION VARIABLES LIKE 'version'
+2026-04-01T01:45:09.364596Z	   13 Query	SELECT current_user()
+2026-04-01T01:45:09.364919Z	   13 Query	SHOW SESSION VARIABLES LIKE 'lower_case_table_names'
+2026-04-01T01:45:09.463760Z	   12 Query	SHOW DATABASES
+2026-04-01T01:45:09.466414Z	   13 Query	show engines
+2026-04-01T01:45:09.466859Z	   13 Query	show charset
+2026-04-01T01:45:09.467179Z	   13 Query	show collation
+2026-04-01T01:45:09.468299Z	   13 Query	show variables
+2026-04-01T01:45:09.469499Z	   13 Query	SHOW SESSION VARIABLES LIKE 'version_compile_os'
+2026-04-01T01:45:09.470179Z	   13 Query	SHOW SESSION VARIABLES LIKE 'offline_mode'
+2026-04-01T01:45:09.472883Z	   13 Query	SHOW SESSION VARIABLES LIKE 'wait_timeout'
+2026-04-01T01:45:09.473549Z	   13 Query	SHOW SESSION VARIABLES LIKE 'interactive_timeout'
+2026-04-01T01:45:19.813922Z	   12 Query	SHOW FULL TABLES FROM `sql_invoicing`
+2026-04-01T01:45:19.820719Z	   12 Query	SHOW PROCEDURE STATUS WHERE Db='sql_invoicing'
+2026-04-01T01:45:19.823324Z	   12 Query	SHOW FUNCTION STATUS WHERE Db='sql_invoicing'
+2026-04-01T01:45:19.823778Z	   12 Query	USE `sql_invoicing`
+2026-04-01T01:45:19.824115Z	   13 Query	SHOW FULL COLUMNS FROM `sql_invoicing`.`clients`
+2026-04-01T01:45:19.826383Z	   13 Query	SHOW FULL COLUMNS FROM `sql_invoicing`.`invoices`
+2026-04-01T01:45:19.827170Z	   13 Query	SHOW FULL COLUMNS FROM `sql_invoicing`.`payment_methods`
+2026-04-01T01:45:19.827732Z	   13 Query	SHOW FULL COLUMNS FROM `sql_invoicing`.`payments`
+2026-04-01T01:45:19.828206Z	   13 Query	USE `sql_invoicing`
+2026-04-01T01:45:22.044620Z	   13 Query	set global general_log = 'on'
+2026-04-01T01:45:24.882062Z	   13 Query	show variables like 'general_log_file'
+2026-04-01T01:45:24.890607Z	   12 Query	SELECT st.* FROM performance_schema.events_statements_current st JOIN performance_schema.threads thr ON thr.thread_id = st.thread_id WHERE thr.processlist_id = 13
+2026-04-01T01:45:24.895774Z	   12 Query	SELECT st.* FROM performance_schema.events_stages_history_long st WHERE st.nesting_event_id = 40
+2026-04-01T01:45:24.896503Z	   12 Query	SELECT st.* FROM performance_schema.events_waits_history_long st WHERE st.nesting_event_id = 40
+2026-04-01T01:45:36.980012Z	   13 Query	update sql_invoicing.clients
+set city = 'UpdatedCity'
+where name = 'TestClient'
+2026-04-01T01:56:24.733175Z	   13 Query	select * from sql_invoicing.clients
+LIMIT 0, 1000
+2026-04-01T01:56:24.739548Z	   12 Query	SELECT st.* FROM performance_schema.events_statements_current st JOIN performance_schema.threads thr ON thr.thread_id = st.thread_id WHERE thr.processlist_id = 13
+2026-04-01T01:56:24.740272Z	   12 Query	SELECT st.* FROM performance_schema.events_stages_history_long st WHERE st.nesting_event_id = 46
+2026-04-01T01:56:24.740549Z	   12 Query	SELECT st.* FROM performance_schema.events_waits_history_long st WHERE st.nesting_event_id = 46
+2026-04-01T01:56:24.741195Z	   12 Query	SHOW INDEX FROM `sql_invoicing`.`clients`
+2026-04-01T01:57:38.033818Z	   13 Query	delete from sql_invoicing.clients where client_id = 1
+2026-04-01T01:57:42.752905Z	   13 Query	delete from sql_invoicing.clients where client_id = 1
+2026-04-01T02:03:58.324536Z	   13 Query	select * from sql_invoicing.clients
+LIMIT 0, 1000
+2026-04-01T02:03:58.331938Z	   12 Query	SELECT st.* FROM performance_schema.events_statements_current st JOIN performance_schema.threads thr ON thr.thread_id = st.thread_id WHERE thr.processlist_id = 13
+2026-04-01T02:03:58.332585Z	   12 Query	SELECT st.* FROM performance_schema.events_stages_history_long st WHERE st.nesting_event_id = 55
+2026-04-01T02:03:58.332737Z	   12 Query	SELECT st.* FROM performance_schema.events_waits_history_long st WHERE st.nesting_event_id = 55
+2026-04-01T02:03:58.333143Z	   12 Query	SHOW INDEX FROM `sql_invoicing`.`clients`
+2026-04-01T02:05:02.880282Z	   13 Query	select * from sql_invoicing.clients
+LIMIT 0, 1000
+2026-04-01T02:05:02.884107Z	   12 Query	SELECT st.* FROM performance_schema.events_statements_current st JOIN performance_schema.threads thr ON thr.thread_id = st.thread_id WHERE thr.processlist_id = 13
+2026-04-01T02:05:02.884494Z	   12 Query	SELECT st.* FROM performance_schema.events_stages_history_long st WHERE st.nesting_event_id = 58
+2026-04-01T02:05:02.884677Z	   12 Query	SELECT st.* FROM performance_schema.events_waits_history_long st WHERE st.nesting_event_id = 58
+2026-04-01T02:05:02.885124Z	   12 Query	SHOW INDEX FROM `sql_invoicing`.`clients`
+2026-04-01T02:05:06.038405Z	   13 Query	delete from sql_invoicing.clients where client_id = 2
+
+
+Query SELECT * FROM orders
+Query UPDATE orders SET amount = 0
+Query DELETE FROM orders
